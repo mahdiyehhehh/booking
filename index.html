@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
   <title>Silk & Tonic · Hair & Nails</title>
-  <!-- Google Fonts + Tailwind CDN (lightweight) -->
+  <!-- Google Fonts + Tailwind CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* brand tokens – no external libs */
+    /* brand tokens */
     :root {
       --bg-pale: #D6E9ED;
       --slate-panel: #CCD6D6;
@@ -98,6 +98,9 @@
       color: var(--near-black);
       min-width: 0;
       box-sizing: border-box;
+      appearance: auto;
+      -webkit-appearance: auto;
+      min-height: 3rem;
     }
     .input-field:focus {
       outline: none;
@@ -175,24 +178,20 @@
       outline-offset: 3px;
       border-radius: 6px;
     }
-    /* make date/time same as other inputs */
-    input[type="date"].input-field,
-    input[type="time"].input-field {
-      appearance: auto;
-      -webkit-appearance: auto;
-      padding: 0.7rem 1rem;
-      min-height: 3rem;
-    }
-    /* smaller hero heading on mobile */
     @media (max-width: 500px) {
       .hero-title { font-size: 2.2rem; }
+    }
+    /* fix date/time width */
+    input[type="date"].input-field,
+    input[type="time"].input-field {
+      max-width: 100%;
     }
   </style>
 </head>
 <body>
 <div class="booking-card">
 
-  <!-- ====== HERO (larger, with working Book Now) ====== -->
+  <!-- ====== HERO ====== -->
   <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 mb-8" id="hero">
     <div>
       <h1 class="hero-title text-5xl md:text-6xl font-medium serif-heading heading-espresso tracking-wide leading-[1.1]">Silk & Tonic</h1>
@@ -206,32 +205,33 @@
     <a href="#booking-start" class="btn-primary text-base px-7 py-3 shadow-sm hero-scroll-btn" style="min-width: auto; scroll-margin-top: 2rem;">Book Now ↓</a>
   </div>
 
-  <!-- ====== SERVICES ====== -->
+  <!-- ====== SERVICES (now you can pick ONE hair + ONE nail) ====== -->
   <div class="mt-6" id="booking-start">
-    <h2 class="text-xl serif-heading heading-espresso tracking-wide">Services</h2>
+    <h2 class="text-xl serif-heading heading-espresso tracking-wide">Services <span class="text-sm font-normal text-[#684F48] opacity-70 ml-2">(choose one hair + one nail)</span></h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
       <!-- Hair -->
       <div>
         <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold mb-2">Hair</h3>
         <div class="flex flex-wrap gap-2" id="hairServices">
-          <span class="service-tag" data-service="Cut & Style" data-duration="45min" data-price="€85">Cut & Style</span>
-          <span class="service-tag" data-service="Balayage/Color" data-duration="90min" data-price="€195">Balayage/Color</span>
-          <span class="service-tag" data-service="Blowout" data-duration="30min" data-price="€55">Blowout</span>
-          <span class="service-tag" data-service="Keratin Treatment" data-duration="60min" data-price="€140">Keratin</span>
-          <span class="service-tag" data-service="Extensions" data-duration="120min" data-price="€250">Extensions</span>
+          <span class="service-tag" data-category="hair" data-service="Cut & Style">Cut & Style</span>
+          <span class="service-tag" data-category="hair" data-service="Balayage/Color">Balayage/Color</span>
+          <span class="service-tag" data-category="hair" data-service="Blowout">Blowout</span>
+          <span class="service-tag" data-category="hair" data-service="Keratin Treatment">Keratin</span>
+          <span class="service-tag" data-category="hair" data-service="Extensions">Extensions</span>
         </div>
       </div>
       <!-- Nails -->
       <div>
         <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold mb-2">Nails</h3>
         <div class="flex flex-wrap gap-2" id="nailServices">
-          <span class="service-tag" data-service="Manicure" data-duration="30min" data-price="€45">Manicure</span>
-          <span class="service-tag" data-service="Gel Manicure" data-duration="45min" data-price="€65">Gel Manicure</span>
-          <span class="service-tag" data-service="Pedicure" data-duration="50min" data-price="€75">Pedicure</span>
-          <span class="service-tag" data-service="Nail Art" data-duration="40min" data-price="€55">Nail Art</span>
+          <span class="service-tag" data-category="nails" data-service="Manicure">Manicure</span>
+          <span class="service-tag" data-category="nails" data-service="Gel Manicure">Gel Manicure</span>
+          <span class="service-tag" data-category="nails" data-service="Pedicure">Pedicure</span>
+          <span class="service-tag" data-category="nails" data-service="Nail Art">Nail Art</span>
         </div>
       </div>
     </div>
+    <div id="serviceSelectionMsg" class="text-sm text-[#684F48] mt-2 min-h-[1.4rem]"></div>
   </div>
 
   <!-- ====== STAFF ====== -->
@@ -246,7 +246,7 @@
     </div>
   </div>
 
-  <!-- ====== DATE + TIME (same size as other inputs) ====== -->
+  <!-- ====== DATE + TIME (fixed width, same as others) ====== -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
     <div>
       <label for="bookingDate" class="block text-sm font-medium text-[#594841] mb-1">Date</label>
@@ -278,7 +278,8 @@
         <span>⏤</span> booking summary
       </h4>
       <div id="summaryContent" class="mt-2 text-[#1A1512] space-y-0.5 text-sm leading-relaxed">
-        <p><span class="font-medium">Service:</span> <span id="summaryService" class="text-[#684F48]">—</span></p>
+        <p><span class="font-medium">Hair:</span> <span id="summaryHair" class="text-[#684F48]">—</span></p>
+        <p><span class="font-medium">Nails:</span> <span id="summaryNails" class="text-[#684F48]">—</span></p>
         <p><span class="font-medium">Stylist:</span> <span id="summaryStaff" class="text-[#684F48]">—</span></p>
         <p><span class="font-medium">Date & time:</span> <span id="summaryDateTime" class="text-[#684F48]">—</span></p>
         <p><span class="font-medium">Client:</span> <span id="summaryClient" class="text-[#684F48]">—</span></p>
@@ -307,14 +308,16 @@
     "use strict";
 
     // DOM refs
-    const serviceTags = document.querySelectorAll('.service-tag');
+    const hairTags = document.querySelectorAll('#hairServices .service-tag');
+    const nailTags = document.querySelectorAll('#nailServices .service-tag');
     const staffOptions = document.querySelectorAll('.staff-option');
     const dateInput = document.getElementById('bookingDate');
     const timeInput = document.getElementById('bookingTime');
     const nameInput = document.getElementById('clientName');
     const phoneInput = document.getElementById('clientPhone');
 
-    const summaryService = document.getElementById('summaryService');
+    const summaryHair = document.getElementById('summaryHair');
+    const summaryNails = document.getElementById('summaryNails');
     const summaryStaff = document.getElementById('summaryStaff');
     const summaryDateTime = document.getElementById('summaryDateTime');
     const summaryClient = document.getElementById('summaryClient');
@@ -324,25 +327,28 @@
     const telegramBtn = document.getElementById('telegramBtn');
     const copyFallback = document.getElementById('copyFallbackBtn');
     const validationMsg = document.getElementById('validationMessage');
+    const serviceMsg = document.getElementById('serviceSelectionMsg');
 
-    // meta
     const salonName = document.getElementById('salonMeta').dataset.salooname || 'Silk & Tonic';
     const phoneIntl = document.getElementById('salonMeta').dataset.phone || '33123456789';
     const telegramUser = document.getElementById('salonMeta').dataset.telegram || 'silklounge';
 
-    let selectedService = null;
+    let selectedHair = null;
+    let selectedNails = null;
     let selectedStaff = null;
 
-    // update summary + buttons
+    // ----- helpers -----
     function updateUI() {
-      const service = selectedService || '—';
+      const hair = selectedHair || '—';
+      const nails = selectedNails || '—';
       const staff = selectedStaff || '—';
       const date = dateInput.value || '—';
       const time = timeInput.value || '—';
       const name = nameInput.value.trim() || '—';
       const phone = phoneInput.value.trim() || '—';
 
-      summaryService.textContent = service;
+      summaryHair.textContent = hair;
+      summaryNails.textContent = nails;
       summaryStaff.textContent = staff;
       summaryDateTime.textContent = (date !== '—' && time !== '—') ? `${date} at ${time}` : '—';
       summaryClient.textContent = name;
@@ -350,18 +356,26 @@
 
       const nameOk = nameInput.value.trim().length > 0;
       const phoneOk = phoneInput.value.trim().length > 0;
-      const serviceOk = selectedService !== null;
+      const hairOk = selectedHair !== null;
+      const nailsOk = selectedNails !== null;
       const dateOk = dateInput.value.length > 0;
       const timeOk = timeInput.value.length > 0;
-      const allFilled = nameOk && phoneOk && serviceOk && dateOk && timeOk;
+      const allFilled = nameOk && phoneOk && hairOk && nailsOk && dateOk && timeOk;
 
       whatsappBtn.disabled = !allFilled;
       telegramBtn.disabled = !allFilled;
       copyFallback.style.display = allFilled ? 'inline-block' : 'none';
 
+      // service hint
+      if (!hairOk && !nailsOk) serviceMsg.textContent = 'Please select one hair service and one nail service.';
+      else if (!hairOk) serviceMsg.textContent = 'Please select a hair service.';
+      else if (!nailsOk) serviceMsg.textContent = 'Please select a nail service.';
+      else serviceMsg.textContent = '✓ Hair + Nail selected';
+
       if (!allFilled) {
         let msg = '';
-        if (!serviceOk) msg += 'Select a service. ';
+        if (!hairOk) msg += 'Select a hair service. ';
+        if (!nailsOk) msg += 'Select a nail service. ';
         if (!dateOk) msg += 'Pick a date. ';
         if (!timeOk) msg += 'Pick a time. ';
         if (!nameOk) msg += 'Enter your name. ';
@@ -372,17 +386,33 @@
       }
     }
 
-    // service click
-    serviceTags.forEach(tag => {
+    // ----- service selection (one hair, one nail) -----
+    function clearHairSelection() {
+      hairTags.forEach(t => t.classList.remove('selected'));
+    }
+    function clearNailSelection() {
+      nailTags.forEach(t => t.classList.remove('selected'));
+    }
+
+    hairTags.forEach(tag => {
       tag.addEventListener('click', function() {
-        serviceTags.forEach(t => t.classList.remove('selected'));
+        clearHairSelection();
         this.classList.add('selected');
-        selectedService = this.dataset.service;
+        selectedHair = this.dataset.service;
         updateUI();
       });
     });
 
-    // staff click
+    nailTags.forEach(tag => {
+      tag.addEventListener('click', function() {
+        clearNailSelection();
+        this.classList.add('selected');
+        selectedNails = this.dataset.service;
+        updateUI();
+      });
+    });
+
+    // staff
     staffOptions.forEach(opt => {
       opt.addEventListener('click', function() {
         staffOptions.forEach(o => o.classList.remove('selected'));
@@ -398,7 +428,7 @@
       inp.addEventListener('input', updateUI);
     });
 
-    // set defaults
+    // defaults
     if (!dateInput.value) {
       const today = new Date().toISOString().split('T')[0];
       dateInput.value = today;
@@ -407,34 +437,33 @@
 
     updateUI();
 
-    // build message
+    // ----- build message -----
     function buildMessage() {
       const name = nameInput.value.trim() || '—';
       const phone = phoneInput.value.trim() || '—';
-      const service = selectedService || '—';
+      const hair = selectedHair || '—';
+      const nails = selectedNails || '—';
       const staff = selectedStaff || '—';
       const date = dateInput.value || '—';
       const time = timeInput.value || '—';
       return `New booking request — ${salonName}
 Name: ${name}
-Service: ${service}
+Hair service: ${hair}
+Nail service: ${nails}
 Stylist: ${staff}
 Date/Time: ${date} at ${time}
 Phone: ${phone}`;
     }
 
-    // whatsapp
+    // ----- send buttons -----
     whatsappBtn.addEventListener('click', function() {
       const msg = buildMessage();
-      const encoded = encodeURIComponent(msg);
-      window.open(`https://wa.me/${phoneIntl}?text=${encoded}`, '_blank');
+      window.open(`https://wa.me/${phoneIntl}?text=${encodeURIComponent(msg)}`, '_blank');
     });
 
-    // telegram
     telegramBtn.addEventListener('click', function() {
       const msg = buildMessage();
-      const encoded = encodeURIComponent(msg);
-      window.open(`https://t.me/${telegramUser}?text=${encoded}`, '_blank');
+      window.open(`https://t.me/${telegramUser}?text=${encodeURIComponent(msg)}`, '_blank');
     });
 
     // copy fallback
@@ -466,11 +495,8 @@ Phone: ${phone}`;
       }
       document.body.removeChild(ta);
     }
-
-    // ensure "Book Now" scroll works (anchor)
-    // the anchor #booking-start already exists
   })();
 </script>
-<!-- Telegram pre-fill fallback note: Telegram's text pre-fill is less consistent, so we added a visible "Copy message" fallback button using the Clipboard API. -->
+<!-- Telegram note: pre-fill less consistent, copy fallback provided -->
 </body>
 </html>
