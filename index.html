@@ -1,506 +1,550 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-  <title>Aura Studio · hair & nails</title>
-  <!-- Google Fonts + Tailwind CDN (lightweight) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background-color: #D6E9ED;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color: #1A1512;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-    h1, h2, h3, .serif {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-    }
-    .container-custom {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-    /* subtle card style */
-    .card-soft {
-      background-color: #F5F3F0;
-      border: 1px solid #CCD6D6;
-      border-radius: 12px;        /* restrained */
-      box-shadow: 0 8px 20px rgba(26, 21, 18, 0.04), 0 2px 6px rgba(0,0,0,0.02);
-      transition: box-shadow 0.2s ease;
-    }
-    .card-soft:hover {
-      box-shadow: 0 12px 28px rgba(26, 21, 18, 0.06);
-    }
-    .btn-primary {
-      background-color: #684F48;
-      color: white;
-      padding: 0.7rem 1.8rem;
-      border-radius: 40px;        /* subtle, not bubbly */
-      font-weight: 500;
-      font-size: 0.95rem;
-      border: 1px solid transparent;
-      transition: background 0.15s, border 0.15s, box-shadow 0.15s;
-      box-shadow: 0 2px 6px rgba(104, 79, 72, 0.2);
-      letter-spacing: 0.01em;
-    }
-    .btn-primary:hover:not(:disabled) {
-      background-color: #594841;
-      border-color: #594841;
-      box-shadow: 0 4px 12px rgba(104, 79, 72, 0.25);
-    }
-    .btn-primary:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    .btn-outline {
-      background: transparent;
-      border: 1px solid #684F48;
-      color: #684F48;
-      padding: 0.7rem 1.8rem;
-      border-radius: 40px;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: background 0.15s, color 0.15s;
-    }
-    .btn-outline:hover:not(:disabled) {
-      background: #684F48;
-      color: white;
-    }
-    .btn-outline:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-    .input-field {
-      width: 100%;
-      padding: 0.7rem 1rem;
-      border: 1px solid #CCD6D6;
-      border-radius: 8px;
-      background-color: white;
-      font-size: 0.95rem;
-      transition: border 0.15s, box-shadow 0.15s;
-      color: #1A1512;
-    }
-    .input-field:focus {
-      outline: none;
-      border-color: #684F48;
-      box-shadow: 0 0 0 3px rgba(104, 79, 72, 0.15);
-    }
-    .input-field:disabled {
-      background-color: #f0f3f2;
-    }
-    label {
-      font-weight: 500;
-      font-size: 0.9rem;
-      letter-spacing: 0.01em;
-      color: #1A1512;
-      display: block;
-      margin-bottom: 0.25rem;
-    }
-    .service-tag {
-      background: #F5F3F0;
-      border: 1px solid #CCD6D6;
-      border-radius: 40px;
-      padding: 0.45rem 1.2rem;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #1A1512;
-      transition: all 0.15s;
-      cursor: pointer;
-      display: inline-block;
-      margin: 0.2rem 0.3rem 0.2rem 0;
-    }
-    .service-tag.selected {
-      background: #684F48;
-      border-color: #684F48;
-      color: white;
-    }
-    .service-tag:focus-visible {
-      outline: 2px solid #594841;
-      outline-offset: 2px;
-    }
-    .summary-line {
-      border-bottom: 1px dashed #CCD6D6;
-      padding: 0.5rem 0;
-      display: flex;
-      justify-content: space-between;
-    }
-    .summary-label {
-      color: #594841;
-      font-weight: 500;
-    }
-    .inline-error {
-      color: #b33c3c;
-      font-size: 0.8rem;
-      margin-top: 0.2rem;
-      display: none;
-    }
-    .inline-error.show {
-      display: block;
-    }
-    /* focus-visible for a11y */
-    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
-      outline: 2px solid #594841;
-      outline-offset: 2px;
-    }
-    /* custom scroll */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #D6E9ED; }
-    ::-webkit-scrollbar-thumb { background: #684F48; border-radius: 12px; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{BARBERSHOP_NAME}} | Premium Booking</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg:#594841;
+--accent:#684F48;
+--panel:#CCD6D6;
+--ice:#D6E9ED;
+--paper:#F5F3F0;
+--text:#1A1512;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:Inter,sans-serif;
+background:var(--bg);
+color:var(--paper);
+}
+
+h1,h2,h3{
+font-family:"Bebas Neue",sans-serif;
+letter-spacing:.08em;
+}
+
+.chamfer{
+clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+}
+
+.service-card,
+.barber-card{
+transition:.25s;
+cursor:pointer;
+}
+
+.service-card.active,
+.barber-card.active{
+background:var(--accent)!important;
+color:white;
+border-color:var(--ice)!important;
+transform:translateY(-2px);
+}
+
+input,select{
+transition:.2s;
+}
+
+input:focus,
+select:focus{
+outline:none;
+border-color:var(--accent);
+box-shadow:0 0 0 3px rgba(214,233,237,.45);
+}
+
+button{
+transition:.2s;
+}
+
+button:disabled{
+opacity:.45;
+cursor:not-allowed;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+gap:16px;
+padding:.55rem 0;
+border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+::-webkit-calendar-picker-indicator{
+cursor:pointer;
+}
+
+</style>
 </head>
+
 <body>
 
-  <div class="container-custom py-6 md:py-10">
+<section class="min-h-screen flex items-center border-b border-white/10">
 
-    <!-- HERO -->
-    <section class="mb-12 md:mb-16">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-        <div>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold serif text-[#594841] tracking-tight">Aura Studio</h1>
-          <p class="text-lg md:text-xl text-[#1A1512] mt-1 max-w-xl leading-relaxed">hair · nails · quiet luxury</p>
-          <div class="flex flex-wrap gap-x-6 gap-y-1 mt-3 text-sm md:text-base text-[#1A1512]/80">
-            <span>🕊️ Mon–Sat 9:00 – 20:00</span>
-            <span>📍 12 Serenity Lane, Oslo</span>
-          </div>
-        </div>
-        <a href="#booking-panel" class="btn-primary inline-block text-center whitespace-nowrap">Book Now ↓</a>
-      </div>
-      <hr class="mt-6 border-[#CCD6D6] opacity-60">
-    </section>
+<div class="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 w-full">
 
-    <!-- SERVICES grid -->
-    <section class="mb-12">
-      <h2 class="text-2xl md:text-3xl serif text-[#594841] mb-5">services</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="servicesGrid">
-        <!-- Hair -->
-        <div class="card-soft p-5">
-          <h3 class="text-lg font-semibold text-[#684F48] serif border-b border-[#CCD6D6] pb-2 mb-3">hair</h3>
-          <div class="flex flex-wrap">
-            <span class="service-tag" data-service="Cut & Style" data-duration="45 min" data-price="NOK 720">Cut & Style</span>
-            <span class="service-tag" data-service="Balayage/Color" data-duration="90 min" data-price="NOK 1450">Balayage/Color</span>
-            <span class="service-tag" data-service="Blowout" data-duration="30 min" data-price="NOK 480">Blowout</span>
-            <span class="service-tag" data-service="Keratin Treatment" data-duration="75 min" data-price="NOK 1100">Keratin Treatment</span>
-            <span class="service-tag" data-service="Extensions" data-duration="120 min" data-price="NOK 1650">Extensions</span>
-          </div>
-        </div>
-        <!-- Nails -->
-        <div class="card-soft p-5">
-          <h3 class="text-lg font-semibold text-[#684F48] serif border-b border-[#CCD6D6] pb-2 mb-3">nails</h3>
-          <div class="flex flex-wrap">
-            <span class="service-tag" data-service="Manicure" data-duration="30 min" data-price="NOK 450">Manicure</span>
-            <span class="service-tag" data-service="Gel Manicure" data-duration="45 min" data-price="NOK 650">Gel Manicure</span>
-            <span class="service-tag" data-service="Pedicure" data-duration="50 min" data-price="NOK 780">Pedicure</span>
-            <span class="service-tag" data-service="Nail Art" data-duration="60 min" data-price="NOK 820">Nail Art</span>
-          </div>
-        </div>
-      </div>
-    </section>
+<div class="flex flex-col justify-center">
 
-    <!-- BOOKING PANEL (main form) -->
-    <section id="booking-panel" class="card-soft p-6 md:p-8 mb-10">
-      <h2 class="text-2xl md:text-3xl serif text-[#594841] mb-6">reserve your moment</h2>
+<p class="uppercase tracking-[0.45em] text-sm text-[#CCD6D6] mb-5">
+Premium Grooming Lounge
+</p>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- left: form -->
-        <div class="lg:col-span-2 space-y-6">
-          <!-- staff -->
-          <div>
-            <label for="staffSelect" class="block">preferred stylist <span class="text-[#684F48]">(optional)</span></label>
-            <select id="staffSelect" class="input-field bg-white">
-              <option value="">— any stylist —</option>
-              <option value="Elena">Elena</option>
-              <option value="Marcus">Marcus</option>
-              <option value="Sofia">Sofia</option>
-              <option value="James">James</option>
-            </select>
-          </div>
+<h1 class="text-7xl md:text-8xl leading-none">
+{{BARBERSHOP_NAME}}
+</h1>
 
-          <!-- date + time -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label for="bookingDate">date *</label>
-              <input type="date" id="bookingDate" class="input-field" min="2026-07-16" max="2026-09-30" value="2026-07-18">
-            </div>
-            <div>
-              <label for="bookingTime">time *</label>
-              <input type="time" id="bookingTime" class="input-field" min="09:00" max="19:30" step="1800" value="10:30">
-              <p class="text-xs text-[#1A1512]/60 mt-1">business hours 9:00 – 20:00</p>
-            </div>
-          </div>
+<p class="mt-6 text-lg text-[#D6E9ED] max-w-xl leading-relaxed">
+Precision cuts. Sharp fades. Traditional craftsmanship with modern style.
+Book your appointment in under a minute.
+</p>
 
-          <!-- client info -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label for="clientName">full name *</label>
-              <input type="text" id="clientName" class="input-field" placeholder="e.g. Liv Andersen" autocomplete="name">
-              <div id="nameError" class="inline-error">please enter your name</div>
-            </div>
-            <div>
-              <label for="clientPhone">phone *</label>
-              <input type="tel" id="clientPhone" class="input-field" placeholder="+47 123 45 678" autocomplete="tel">
-              <div id="phoneError" class="inline-error">valid phone required</div>
-            </div>
-          </div>
+<div class="mt-10 space-y-2 text-[#CCD6D6]">
 
-          <!-- service selection (visual) + hidden -->
-          <div>
-            <label class="block">choose service *</label>
-            <div id="serviceTagsContainer" class="flex flex-wrap gap-1 mt-1">
-              <!-- dynamically filled from service tags -->
-            </div>
-            <input type="hidden" id="selectedServiceHidden" value="">
-            <div id="serviceError" class="inline-error">please select a service</div>
-          </div>
+<div><strong>Hours:</strong> {{HOURS}}</div>
 
-          <!-- message & hidden summary preview (optional) -->
-          <div class="pt-2 text-sm text-[#1A1512]/70 italic">
-            <span>✨ your booking summary will appear on the right</span>
-          </div>
-        </div>
+<div><strong>Address:</strong> {{ADDRESS}}</div>
 
-        <!-- RIGHT: summary panel + send buttons -->
-        <div class="lg:col-span-1 bg-[#F5F3F0] rounded-xl p-5 border border-[#CCD6D6] self-start">
-          <h3 class="serif text-xl text-[#594841] border-b border-[#CCD6D6] pb-2 mb-3">your booking</h3>
-          <div id="summaryContainer" class="space-y-1 text-sm">
-            <div class="summary-line"><span class="summary-label">service</span><span id="summaryService" class="text-[#1A1512]">—</span></div>
-            <div class="summary-line"><span class="summary-label">stylist</span><span id="summaryStaff" class="text-[#1A1512]">—</span></div>
-            <div class="summary-line"><span class="summary-label">date</span><span id="summaryDate" class="text-[#1A1512]">—</span></div>
-            <div class="summary-line"><span class="summary-label">time</span><span id="summaryTime" class="text-[#1A1512]">—</span></div>
-            <div class="summary-line"><span class="summary-label">name</span><span id="summaryName" class="text-[#1A1512]">—</span></div>
-            <div class="summary-line"><span class="summary-label">phone</span><span id="summaryPhone" class="text-[#1A1512]">—</span></div>
-          </div>
-          <div class="mt-5 flex flex-col gap-3">
-            <button id="whatsappBtn" class="btn-primary w-full flex items-center justify-center gap-2" disabled>
-              <span>📱</span> Send via WhatsApp
-            </button>
-            <button id="telegramBtn" class="btn-primary w-full flex items-center justify-center gap-2" disabled>
-              <span>✈️</span> Send via Telegram
-            </button>
-            <!-- fallback copy -->
-            <button id="copyFallbackBtn" class="btn-outline w-full text-sm flex items-center justify-center gap-1" disabled>
-              <span>📋</span> Copy message
-            </button>
-            <div id="copyFeedback" class="text-xs text-[#594841] text-center h-4"></div>
-          </div>
-          <p class="text-[0.7rem] text-[#1A1512]/50 mt-3 border-t border-[#CCD6D6] pt-2">required fields: name, phone, service, date, time</p>
-        </div>
-      </div>
-    </section>
+</div>
 
-    <!-- footer -->
-    <footer class="text-center text-[#1A1512]/50 text-xs border-t border-[#CCD6D6] pt-6 mt-6">
-      <span>© Aura Studio · quiet luxury since 2026</span>
-    </footer>
-  </div>
+<a href="#booking"
+class="mt-12 inline-flex w-fit items-center px-8 py-4 font-semibold tracking-wide uppercase bg-[#684F48] hover:bg-[#7a5e56] text-white chamfer">
+Book Now
+</a>
 
-  <script>
-    (function() {
-      // ----- DOM refs -----
-      const serviceTags = document.querySelectorAll('.service-tag');
-      const serviceContainer = document.getElementById('serviceTagsContainer');
-      const selectedServiceHidden = document.getElementById('selectedServiceHidden');
+</div>
 
-      const staffSelect = document.getElementById('staffSelect');
-      const bookingDate = document.getElementById('bookingDate');
-      const bookingTime = document.getElementById('bookingTime');
-      const clientName = document.getElementById('clientName');
-      const clientPhone = document.getElementById('clientPhone');
+<div class="hidden lg:flex items-center justify-center">
 
-      // summary spans
-      const summaryService = document.getElementById('summaryService');
-      const summaryStaff = document.getElementById('summaryStaff');
-      const summaryDate = document.getElementById('summaryDate');
-      const summaryTime = document.getElementById('summaryTime');
-      const summaryName = document.getElementById('summaryName');
-      const summaryPhone = document.getElementById('summaryPhone');
+<div class="w-full h-[600px] border border-[#CCD6D6] bg-gradient-to-br from-[#684F48] to-[#594841] chamfer flex items-center justify-center">
 
-      // errors
-      const nameError = document.getElementById('nameError');
-      const phoneError = document.getElementById('phoneError');
-      const serviceError = document.getElementById('serviceError');
+<div class="text-center">
 
-      // buttons
-      const whatsappBtn = document.getElementById('whatsappBtn');
-      const telegramBtn = document.getElementById('telegramBtn');
-      const copyBtn = document.getElementById('copyFallbackBtn');
-      const copyFeedback = document.getElementById('copyFeedback');
+<div class="text-8xl">✂</div>
 
-      // ---- service selection logic ----
-      let selectedService = '';
+<p class="uppercase tracking-[0.4em] text-[#CCD6D6] mt-8">
+Confidence Starts Here
+</p>
 
-      function renderServiceTags() {
-        // clone from original .service-tag into container (preserve data)
-        const originalTags = document.querySelectorAll('.service-tag');
-        serviceContainer.innerHTML = '';
-        originalTags.forEach(tag => {
-          const clone = tag.cloneNode(true);
-          clone.classList.remove('selected');
-          clone.addEventListener('click', function(e) {
-            // deselect all
-            serviceContainer.querySelectorAll('.service-tag').forEach(t => t.classList.remove('selected'));
-            this.classList.add('selected');
-            selectedService = this.dataset.service;
-            selectedServiceHidden.value = selectedService;
-            updateSummary();
-            validateAll();
-          });
-          serviceContainer.appendChild(clone);
-        });
-        // if any selected previously? default none
-      }
-      renderServiceTags();
+</div>
 
-      // ---- update summary ----
-      function updateSummary() {
-        const service = selectedService || '—';
-        const staff = staffSelect.value || '—';
-        const date = bookingDate.value ? new Date(bookingDate.value).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—';
-        const time = bookingTime.value || '—';
-        const name = clientName.value.trim() || '—';
-        const phone = clientPhone.value.trim() || '—';
+</div>
 
-        summaryService.textContent = service;
-        summaryStaff.textContent = staff;
-        summaryDate.textContent = date;
-        summaryTime.textContent = time;
-        summaryName.textContent = name;
-        summaryPhone.textContent = phone;
-      }
+</div>
 
-      // ---- validation ----
-      function validateAll() {
-        const nameValid = clientName.value.trim().length > 0;
-        const phoneValid = clientPhone.value.trim().length >= 6; // basic
-        const serviceValid = selectedService !== '';
-        const dateValid = bookingDate.value !== '';
-        const timeValid = bookingTime.value !== '';
+</div>
 
-        // show/hide errors
-        nameError.classList.toggle('show', !nameValid && clientName.value.trim().length > 0);
-        phoneError.classList.toggle('show', !phoneValid && clientPhone.value.trim().length > 0);
-        serviceError.classList.toggle('show', !serviceValid);
+</section>
 
-        const allValid = nameValid && phoneValid && serviceValid && dateValid && timeValid;
-        whatsappBtn.disabled = !allValid;
-        telegramBtn.disabled = !allValid;
-        copyBtn.disabled = !allValid;
-        return allValid;
-      }
+<section id="booking" class="py-20">
 
-      // ---- build message ----
-      function buildMessage() {
-        const name = clientName.value.trim() || '—';
-        const service = selectedService || '—';
-        const staff = staffSelect.value || '—';
-        const date = bookingDate.value ? new Date(bookingDate.value).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—';
-        const time = bookingTime.value || '—';
-        const phone = clientPhone.value.trim() || '—';
-        return `New booking request — Aura Studio
-        Name: ${name}
-        Service: ${service}
-        Stylist: ${staff}
-        Date/Time: ${date} at ${time}
-        Phone: ${phone}`;
-      }
+<div class="max-w-7xl mx-auto px-6 grid xl:grid-cols-3 gap-10">
 
-      // ---- send / copy actions ----
-      function getEncodedMessage() {
-        return encodeURIComponent(buildMessage());
-      }
+<div class="xl:col-span-2 space-y-10">
 
-      function handleSend(platform) {
-        if (whatsappBtn.disabled) return;
-        const encoded = getEncodedMessage();
-        if (platform === 'whatsapp') {
-          // PHONE_NUMBER_INTL placeholder (editable)
-          const phone = '4741234567'; // international format without +
-          window.open(`https://wa.me/${phone}?text=${encoded}`, '_blank');
-        } else if (platform === 'telegram') {
-          // TELEGRAM_USERNAME placeholder
-          const username = 'AuraStudio'; 
-          // Telegram text pre-fill may be inconsistent – fallback copy is provided
-          window.open(`https://t.me/${username}?text=${encoded}`, '_blank');
-        }
-      }
+<div class="bg-[#F5F3F0] text-[#1A1512] p-8 chamfer">
 
-      function copyMessageFallback() {
-        if (copyBtn.disabled) return;
-        const msg = buildMessage();
-        navigator.clipboard.writeText(msg).then(() => {
-          copyFeedback.textContent = '✓ message copied!';
-          setTimeout(() => { copyFeedback.textContent = ''; }, 2500);
-        }).catch(() => {
-          // fallback
-          const ta = document.createElement('textarea');
-          ta.value = msg;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          copyFeedback.textContent = '✓ copied (fallback)';
-          setTimeout(() => { copyFeedback.textContent = ''; }, 2500);
-        });
-      }
+<h2 class="text-4xl mb-6">
+Services
+</h2>
 
-      // ---- event listeners ----
-      staffSelect.addEventListener('change', () => { updateSummary(); validateAll(); });
-      bookingDate.addEventListener('change', () => { updateSummary(); validateAll(); });
-      bookingTime.addEventListener('change', () => { updateSummary(); validateAll(); });
-      clientName.addEventListener('input', () => { updateSummary(); validateAll(); });
-      clientPhone.addEventListener('input', () => { updateSummary(); validateAll(); });
+<div id="servicesGrid" class="grid md:grid-cols-2 gap-4">
 
-      // also initial validation on load
-      window.addEventListener('DOMContentLoaded', function() {
-        // set default date + time if empty
-        if (!bookingDate.value) {
-          const today = new Date();
-          const yyyy = today.getFullYear();
-          const mm = String(today.getMonth()+1).padStart(2,'0');
-          const dd = String(today.getDate()+1).padStart(2,'0');
-          bookingDate.value = `${yyyy}-${mm}-${dd}`;
-        }
-        if (!bookingTime.value) {
-          bookingTime.value = '10:00';
-        }
-        updateSummary();
-        validateAll();
-      });
+</div>
 
-      // button bindings
-      whatsappBtn.addEventListener('click', function(e) { e.preventDefault(); handleSend('whatsapp'); });
-      telegramBtn.addEventListener('click', function(e) { e.preventDefault(); handleSend('telegram'); });
-      copyBtn.addEventListener('click', function(e) { e.preventDefault(); copyMessageFallback(); });
+<div id="serviceError" class="text-red-700 text-sm mt-4 hidden">
+Please choose a service.
+</div>
 
-      // re-run validation on service click (already in service click)
-      // also on any change
-      document.querySelectorAll('input, select').forEach(el => {
-        el.addEventListener('blur', function() { validateAll(); });
-      });
+</div>
 
-      // extra: selected service from hidden
-      // we also call validateAll after service selection
-      // override service click to update summary and validate
-      // already done inside click
+<div class="bg-[#F5F3F0] text-[#1A1512] p-8 chamfer">
 
-      // ensure that if service is selected via hidden (none) we update summary
-      // also handle if user clicks on service tag
-      // service click already does updateSummary + validateAll
-      // but we also need to trigger when staff/date/time changes
-      // already bound
+<h2 class="text-4xl mb-6">
+Choose Barber
+</h2>
 
-      // expose to global for debugging (optional)
-      window.updateSummary = updateSummary;
-      window.validateAll = validateAll;
-    })();
-  </script>
+<div id="barbersGrid" class="grid md:grid-cols-3 gap-4">
+
+</div>
+
+</div>
+
+<div class="bg-[#F5F3F0] text-[#1A1512] p-8 chamfer">
+
+<h2 class="text-4xl mb-6">
+Appointment
+</h2>
+
+<div class="grid md:grid-cols-2 gap-6">
+
+<div>
+
+<label for="date" class="font-semibold block mb-2">
+Date
+</label>
+
+<input id="date" type="date"
+class="w-full border-2 border-[#CCD6D6] p-3 bg-white">
+
+<p id="dateError" class="text-red-700 text-sm mt-2 hidden">
+Select a valid date.
+</p>
+
+</div>
+
+<div>
+
+<label for="time" class="font-semibold block mb-2">
+Time
+</label>
+
+<select id="time"
+class="w-full border-2 border-[#CCD6D6] p-3 bg-white">
+<option value="">Select Time</option>
+</select>
+
+<p id="timeError" class="text-red-700 text-sm mt-2 hidden">
+Choose a time.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="bg-[#F5F3F0] text-[#1A1512] p-8 chamfer">
+
+<h2 class="text-4xl mb-6">
+Client Information
+</h2>
+
+<div class="space-y-6">
+
+<div>
+
+<label class="font-semibold block mb-2" for="name">
+Full Name
+</label>
+
+<input
+id="name"
+type="text"
+class="w-full border-2 border-[#CCD6D6] p-3">
+
+<p id="nameError" class="text-red-700 text-sm mt-2 hidden">
+Please enter your name.
+</p>
+
+</div>
+
+<div>
+
+<label class="font-semibold block mb-2" for="phone">
+Phone Number
+</label>
+
+<input
+id="phone"
+type="tel"
+class="w-full border-2 border-[#CCD6D6] p-3">
+
+<p id="phoneError" class="text-red-700 text-sm mt-2 hidden">
+Please enter your phone number.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="flex flex-wrap gap-4">
+
+<button
+id="waBtn"
+disabled
+class="flex-1 bg-[#684F48] text-white px-6 py-4 uppercase tracking-wider font-bold hover:bg-[#7d625b]">
+Send via WhatsApp
+</button>
+
+<div class="flex-1 flex gap-3">
+
+<button
+id="tgBtn"
+disabled
+class="flex-1 border-2 border-[#684F48] text-[#684F48] bg-[#F5F3F0] uppercase font-bold hover:bg-[#D6E9ED]">
+Send via Telegram
+</button>
+
+<button
+id="copyBtn"
+type="button"
+class="px-5 bg-[#CCD6D6] text-[#1A1512] font-semibold">
+Copy Message
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="sticky top-8 bg-[#D6E9ED] text-[#1A1512] p-8 chamfer">
+
+<h2 class="text-4xl mb-6">
+Booking Summary
+</h2>
+
+<div id="summary">
+
+<div class="summary-row"><span>Service</span><strong id="sumService">—</strong></div>
+
+<div class="summary-row"><span>Barber</span><strong id="sumBarber">Any</strong></div>
+
+<div class="summary-row"><span>Date</span><strong id="sumDate">—</strong></div>
+
+<div class="summary-row"><span>Time</span><strong id="sumTime">—</strong></div>
+
+<div class="summary-row"><span>Name</span><strong id="sumName">—</strong></div>
+
+<div class="summary-row border-0"><span>Phone</span><strong id="sumPhone">—</strong></div>
+
+</div>
+
+<hr class="my-6">
+
+<pre id="messagePreview" class="text-sm whitespace-pre-wrap font-sans"></pre>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const services=[
+{name:"Skin Fade",duration:"45 min",price:"$35"},
+{name:"Classic Cut",duration:"30 min",price:"$28"},
+{name:"Beard Trim & Line-Up",duration:"20 min",price:"$18"},
+{name:"Hot Towel Shave",duration:"35 min",price:"$30"},
+{name:"Cut + Beard Combo",duration:"60 min",price:"$48"},
+{name:"Kids Cut",duration:"25 min",price:"$22"}
+];
+// {{SERVICES_LIST}}
+
+const barbers=[
+"Alex",
+"Marcus",
+"Daniel"
+];
+// {{BARBER_LIST}}
+
+const servicesGrid=document.getElementById("servicesGrid");
+const barbersGrid=document.getElementById("barbersGrid");
+
+let selectedService="";
+let selectedBarber="Any";
+
+services.forEach(s=>{
+
+const card=document.createElement("div");
+
+card.className="service-card border-2 border-[#CCD6D6] p-5 bg-white";
+
+card.innerHTML=`
+<div class="font-bold text-lg">${s.name}</div>
+<div class="text-sm mt-2">${s.duration}</div>
+<div class="font-semibold mt-2">${s.price}</div>
+`;
+
+card.onclick=()=>{
+
+document.querySelectorAll(".service-card").forEach(x=>x.classList.remove("active"));
+
+card.classList.add("active");
+
+selectedService=s.name;
+
+update();
+
+};
+
+servicesGrid.appendChild(card);
+
+});
+
+barbers.forEach(name=>{
+
+const card=document.createElement("div");
+
+card.className="barber-card border-2 border-[#CCD6D6] bg-white p-5 text-center";
+
+card.innerHTML=`
+<div class="w-16 h-16 mx-auto bg-[#684F48] text-white flex items-center justify-center text-xl font-bold mb-4">
+${name.charAt(0)}
+</div>
+<div class="font-semibold">${name}</div>
+`;
+
+card.onclick=()=>{
+
+document.querySelectorAll(".barber-card").forEach(x=>x.classList.remove("active"));
+
+card.classList.add("active");
+
+selectedBarber=name;
+
+update();
+
+};
+
+barbersGrid.appendChild(card);
+
+});
+
+const timeSelect=document.getElementById("time");
+
+for(let h=9;h<=18;h++){
+
+["00","30"].forEach(m=>{
+
+if(h===18 && m==="30") return;
+
+const value=`${String(h).padStart(2,"0")}:${m}`;
+
+const option=document.createElement("option");
+
+option.value=value;
+
+option.textContent=value;
+
+timeSelect.appendChild(option);
+
+});
+
+}
+
+const date=document.getElementById("date");
+const today=new Date();
+date.min=today.toISOString().split("T")[0];
+
+const nameInput=document.getElementById("name");
+const phoneInput=document.getElementById("phone");
+
+const waBtn=document.getElementById("waBtn");
+const tgBtn=document.getElementById("tgBtn");
+
+function message(){
+
+return `New booking request — {{BARBERSHOP_NAME}}
+
+Name: ${nameInput.value}
+
+Service: ${selectedService}
+
+Barber: ${selectedBarber}
+
+Date/Time: ${date.value} at ${timeSelect.value}
+
+Phone: ${phoneInput.value}`;
+
+}
+
+function update(){
+
+document.getElementById("sumService").textContent=selectedService||"—";
+document.getElementById("sumBarber").textContent=selectedBarber||"Any";
+document.getElementById("sumDate").textContent=date.value||"—";
+document.getElementById("sumTime").textContent=timeSelect.value||"—";
+document.getElementById("sumName").textContent=nameInput.value||"—";
+document.getElementById("sumPhone").textContent=phoneInput.value||"—";
+
+document.getElementById("messagePreview").textContent=message();
+
+validate();
+
+}
+
+function validate(){
+
+const valid=
+nameInput.value.trim() &&
+phoneInput.value.trim() &&
+selectedService &&
+date.value &&
+timeSelect.value;
+
+waBtn.disabled=!valid;
+tgBtn.disabled=!valid;
+
+document.getElementById("nameError").classList.toggle("hidden",nameInput.value.trim());
+document.getElementById("phoneError").classList.toggle("hidden",phoneInput.value.trim());
+document.getElementById("serviceError").classList.toggle("hidden",selectedService);
+document.getElementById("dateError").classList.toggle("hidden",date.value);
+document.getElementById("timeError").classList.toggle("hidden",timeSelect.value);
+
+}
+
+[nameInput,phoneInput,date,timeSelect].forEach(el=>el.addEventListener("input",update));
+
+waBtn.onclick=()=>{
+
+const text=encodeURIComponent(message());
+
+window.open(`https://wa.me/{{PHONE_NUMBER_INTL}}?text=${text}`,"_blank");
+
+};
+
+/*
+Telegram text pre-fill support is less consistent across clients than WhatsApp.
+A Clipboard API fallback is provided with the Copy Message button.
+*/
+
+tgBtn.onclick=()=>{
+
+const text=encodeURIComponent(message());
+
+window.open(`https://t.me/{{TELEGRAM_USERNAME}}?text=${text}`,"_blank");
+
+};
+
+document.getElementById("copyBtn").onclick=async()=>{
+
+try{
+
+await navigator.clipboard.writeText(message());
+
+const btn=document.getElementById("copyBtn");
+
+btn.textContent="Copied";
+
+setTimeout(()=>btn.textContent="Copy Message",1800);
+
+}catch(e){}
+
+};
+
+update();
+
+</script>
+
 </body>
 </html>
