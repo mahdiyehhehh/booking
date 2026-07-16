@@ -103,7 +103,10 @@
       color: white;
       border-color: var(--espresso);
     }
-    .input-field {
+    /* ----- UNIFIED INPUT STYLES ----- */
+    .input-field, 
+    .custom-date-input,
+    .custom-time-input {
       background: white;
       border: 1px solid rgba(26, 21, 18, 0.08);
       border-radius: 16px;
@@ -114,17 +117,66 @@
       color: var(--near-black);
       min-width: 0;
       box-sizing: border-box;
-      appearance: auto;
-      -webkit-appearance: auto;
-      min-height: 3rem;
-      max-width: 100%;
+      height: 3rem;              /* fixed height – matches all inputs */
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      font-family: inherit;
+      appearance: none;
+      -webkit-appearance: none;
     }
-    .input-field:focus {
+    .input-field:focus,
+    .custom-date-input:focus,
+    .custom-time-input:focus {
       outline: none;
       border-color: var(--walnut);
       box-shadow: 0 0 0 3px rgba(104, 79, 72, 0.08);
     }
     .input-field::placeholder { color: #9a8b84; font-weight: 300; }
+    /* hide native calendar icon on Safari (keeps height consistent) */
+    .custom-date-input::-webkit-calendar-picker-indicator,
+    .custom-time-input::-webkit-calendar-picker-indicator {
+      opacity: 0.5;
+      padding: 0;
+      margin: 0;
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+    .custom-date-input::-webkit-datetime-edit,
+    .custom-time-input::-webkit-datetime-edit {
+      padding: 0;
+      line-height: 1.4;
+    }
+    .custom-date-input::-webkit-datetime-edit-fields-wrapper,
+    .custom-time-input::-webkit-datetime-edit-fields-wrapper {
+      padding: 0;
+    }
+    /* reset extra spacing */
+    .custom-date-input,
+    .custom-time-input {
+      padding: 0 1rem;
+    }
+    .custom-date-input {
+      padding-right: 0.5rem; /* give room for the picker icon */
+    }
+    .custom-time-input {
+      padding-right: 0.5rem;
+    }
+    /* remove default spin buttons / clear */
+    .custom-date-input::-webkit-inner-spin-button,
+    .custom-time-input::-webkit-inner-spin-button {
+      display: none;
+    }
+    .custom-date-input::-webkit-clear-button,
+    .custom-time-input::-webkit-clear-button {
+      display: none;
+    }
+    /* fallback for Firefox */
+    .custom-date-input,
+    .custom-time-input {
+      -moz-appearance: textfield;
+    }
+
     .btn-primary {
       background: var(--walnut);
       color: white;
@@ -198,19 +250,6 @@
     @media (max-width: 500px) {
       .hero-title { font-size: 2.2rem; }
     }
-    /* smaller date/time horizontally */
-    .date-time-wrapper {
-      max-width: 100%;
-    }
-    .date-time-wrapper .input-field {
-      max-width: 100%;
-      width: 100%;
-    }
-    @media (min-width: 640px) {
-      .date-time-wrapper .input-field {
-        max-width: 90%;
-      }
-    }
     .reset-service-btn {
       background: none;
       border: none;
@@ -254,7 +293,7 @@
     <a href="#booking-start" class="btn-primary text-base px-7 py-3 shadow-sm hero-scroll-btn" style="min-width: auto; scroll-margin-top: 2rem;">Book Now ↓</a>
   </div>
 
-  <!-- ====== SERVICES (with reset via ✕ on selected) ====== -->
+  <!-- ====== SERVICES ====== -->
   <div class="mt-6" id="booking-start">
     <h2 class="text-xl serif-heading heading-espresso tracking-wide">Services <span class="text-sm font-normal text-[#684F48] opacity-70 ml-2">(choose one hair + one nail)</span></h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
@@ -301,15 +340,15 @@
     </div>
   </div>
 
-  <!-- ====== DATE + TIME (horizontally smaller) ====== -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 date-time-wrapper">
+  <!-- ====== DATE + TIME (refactored – pixel‑perfect identical height) ====== -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
     <div>
       <label for="bookingDate" class="block text-sm font-medium text-[#594841] mb-1">Date</label>
-      <input type="date" id="bookingDate" class="input-field" min="2026-07-16" value="2026-07-16" />
+      <input type="date" id="bookingDate" class="custom-date-input" min="2026-07-16" value="2026-07-16" />
     </div>
     <div>
       <label for="bookingTime" class="block text-sm font-medium text-[#594841] mb-1">Time</label>
-      <input type="time" id="bookingTime" class="input-field" step="900" min="09:00" max="19:00" value="11:30" />
+      <input type="time" id="bookingTime" class="custom-time-input" step="900" min="09:00" max="19:00" value="11:30" />
       <p class="text-[0.7rem] text-[#684F48] opacity-60 mt-0.5">business hours 9:00 – 19:00</p>
     </div>
   </div>
@@ -354,7 +393,7 @@
     </div>
   </div>
 
-  <!-- ====== LOCATION FOOTER ====== -->
+  <!-- ====== LOCATION ====== -->
   <div class="location-footer flex flex-wrap items-center justify-between gap-2 mt-4">
     <span class="flex items-center gap-1.5">📍 14 Rue de la Paix, 75002 Paris, France</span>
     <span class="text-xs opacity-60">〒 75002</span>
@@ -465,7 +504,6 @@
     function handleServiceClick(e) {
       const tag = e.currentTarget;
       const category = tag.dataset.category;
-      // if the click was on the reset icon, clear that category
       if (e.target.classList.contains('reset-icon')) {
         if (category === 'hair') clearHairSelection();
         else if (category === 'nails') clearNailSelection();
@@ -473,7 +511,6 @@
       }
 
       if (category === 'hair') {
-        // if already selected, deselect (toggle off)
         if (selectedHair === tag.dataset.service) {
           clearHairSelection();
           return;
@@ -501,11 +538,9 @@
       tag.addEventListener('click', handleServiceClick);
     });
 
-    // reset buttons
     resetHairBtn.addEventListener('click', clearHairSelection);
     resetNailsBtn.addEventListener('click', clearNailSelection);
 
-    // staff
     staffOptions.forEach(opt => {
       opt.addEventListener('click', function() {
         staffOptions.forEach(o => o.classList.remove('selected'));
@@ -515,13 +550,11 @@
       });
     });
 
-    // inputs
     [dateInput, timeInput, nameInput, phoneInput].forEach(inp => {
       inp.addEventListener('change', updateUI);
       inp.addEventListener('input', updateUI);
     });
 
-    // defaults
     if (!dateInput.value) {
       const today = new Date().toISOString().split('T')[0];
       dateInput.value = today;
@@ -548,7 +581,6 @@ Date/Time: ${date} at ${time}
 Phone: ${phone}`;
     }
 
-    // ----- send buttons -----
     whatsappBtn.addEventListener('click', function() {
       const msg = buildMessage();
       window.open(`https://wa.me/${phoneIntl}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -559,7 +591,6 @@ Phone: ${phone}`;
       window.open(`https://t.me/${telegramUser}?text=${encodeURIComponent(msg)}`, '_blank');
     });
 
-    // copy fallback
     copyFallback.addEventListener('click', function() {
       const msg = buildMessage();
       if (navigator.clipboard && navigator.clipboard.writeText) {
