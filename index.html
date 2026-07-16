@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
   <title>Silk & Tonic · Hair & Nails</title>
   <!-- Google Fonts + Tailwind CDN (lightweight) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* custom brand tokens – no external libs, only embedded */
+    /* brand tokens – no external libs */
     :root {
       --bg-pale: #D6E9ED;
       --slate-panel: #CCD6D6;
@@ -48,37 +48,13 @@
       font-weight: 500;
       letter-spacing: -0.01em;
     }
-    .heading-espresso {
-      color: var(--espresso);
-    }
-    .text-walnut {
-      color: var(--walnut);
-    }
-    .bg-walnut {
-      background-color: var(--walnut);
-    }
-    .bg-walnut:hover {
-      background-color: #5a433c;
-    }
-    .border-slate {
-      border-color: var(--slate-panel);
-    }
-    .bg-pale {
-      background-color: var(--bg-pale);
-    }
-    .bg-offwhite {
-      background-color: var(--offwhite);
-    }
-    .badge-soft {
-      background: rgba(104, 79, 72, 0.06);
-      color: var(--espresso);
-      font-weight: 500;
-      padding: 0.2rem 0.8rem;
-      border-radius: 40px;
-      border: 1px solid rgba(104, 79, 72, 0.12);
-      font-size: 0.75rem;
-      letter-spacing: 0.02em;
-    }
+    .heading-espresso { color: var(--espresso); }
+    .text-walnut { color: var(--walnut); }
+    .bg-walnut { background-color: var(--walnut); }
+    .bg-walnut:hover { background-color: #5a433c; }
+    .border-slate { border-color: var(--slate-panel); }
+    .bg-pale { background-color: var(--bg-pale); }
+    .bg-offwhite { background-color: var(--offwhite); }
     .service-tag {
       background: var(--offwhite);
       border: 1px solid rgba(104, 79, 72, 0.15);
@@ -89,6 +65,7 @@
       font-size: 0.85rem;
       font-weight: 450;
       color: var(--near-black);
+      user-select: none;
     }
     .service-tag.selected {
       background: var(--walnut);
@@ -103,6 +80,7 @@
       transition: 0.1s;
       cursor: pointer;
       font-size: 0.85rem;
+      user-select: none;
     }
     .staff-option.selected {
       background: var(--espresso);
@@ -118,16 +96,15 @@
       width: 100%;
       transition: 0.15s;
       color: var(--near-black);
+      min-width: 0;
+      box-sizing: border-box;
     }
     .input-field:focus {
       outline: none;
       border-color: var(--walnut);
       box-shadow: 0 0 0 3px rgba(104, 79, 72, 0.08);
     }
-    .input-field::placeholder {
-      color: #9a8b84;
-      font-weight: 300;
-    }
+    .input-field::placeholder { color: #9a8b84; font-weight: 300; }
     .btn-primary {
       background: var(--walnut);
       color: white;
@@ -186,48 +163,54 @@
       border: 1px solid rgba(26, 21, 18, 0.04);
       box-shadow: inset 0 1px 4px rgba(255,255,255,0.8), 0 4px 10px rgba(26,21,18,0.02);
     }
-    .hairline-divider {
-      height: 1px;
-      background: var(--slate-panel);
-      opacity: 0.3;
-      margin: 1.2rem 0;
+    .hero-scroll-btn {
+      scroll-margin-top: 2rem;
     }
     @media (max-width: 700px) {
       .booking-card { padding: 1.25rem; }
       .btn-primary, .btn-outline-walnut { min-width: 120px; width: 100%; }
     }
-    /* subtle ring for focus-visible */
     *:focus-visible {
       outline: 2px solid var(--walnut);
       outline-offset: 3px;
       border-radius: 6px;
     }
-    .text-near-black { color: var(--near-black); }
-    .bg-pale-light { background: #e3edef; } /* slight variation for contrast */
+    /* make date/time same as other inputs */
+    input[type="date"].input-field,
+    input[type="time"].input-field {
+      appearance: auto;
+      -webkit-appearance: auto;
+      padding: 0.7rem 1rem;
+      min-height: 3rem;
+    }
+    /* smaller hero heading on mobile */
+    @media (max-width: 500px) {
+      .hero-title { font-size: 2.2rem; }
+    }
   </style>
 </head>
 <body>
 <div class="booking-card">
 
-  <!-- ====== HERO ====== -->
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-2 mb-6">
+  <!-- ====== HERO (larger, with working Book Now) ====== -->
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 mb-8" id="hero">
     <div>
-      <h1 class="text-4xl md:text-5xl font-medium serif-heading heading-espresso tracking-wide">Silk & Tonic</h1>
-      <p class="text-base text-[#4d3e38] mt-1 max-w-xl">quiet luxury · hair & nails</p>
-      <div class="flex flex-wrap items-center gap-3 mt-2 text-sm text-[#3f312b]">
+      <h1 class="hero-title text-5xl md:text-6xl font-medium serif-heading heading-espresso tracking-wide leading-[1.1]">Silk & Tonic</h1>
+      <p class="text-lg text-[#4d3e38] mt-1 max-w-xl">quiet luxury · hair & nails</p>
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-1 mt-3 text-sm text-[#3f312b]">
         <span class="flex items-center gap-1">🕊️ Mon–Sat 9:00 – 19:00</span>
         <span class="hidden sm:inline-block w-px h-4 bg-[#ccd6d6]"></span>
         <span>14 Rue de la Paix, 75002 Paris</span>
       </div>
     </div>
-    <a href="#booking-start" class="btn-primary text-sm px-6 py-2.5 shadow-sm" style="min-width: auto;">Book Now ↓</a>
+    <a href="#booking-start" class="btn-primary text-base px-7 py-3 shadow-sm hero-scroll-btn" style="min-width: auto; scroll-margin-top: 2rem;">Book Now ↓</a>
   </div>
 
   <!-- ====== SERVICES ====== -->
-  <div class="mt-6">
+  <div class="mt-6" id="booking-start">
     <h2 class="text-xl serif-heading heading-espresso tracking-wide">Services</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
-      <!-- Hair category -->
+      <!-- Hair -->
       <div>
         <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold mb-2">Hair</h3>
         <div class="flex flex-wrap gap-2" id="hairServices">
@@ -238,7 +221,7 @@
           <span class="service-tag" data-service="Extensions" data-duration="120min" data-price="€250">Extensions</span>
         </div>
       </div>
-      <!-- Nails category -->
+      <!-- Nails -->
       <div>
         <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold mb-2">Nails</h3>
         <div class="flex flex-wrap gap-2" id="nailServices">
@@ -251,7 +234,7 @@
     </div>
   </div>
 
-  <!-- ====== STAFF (optional) ====== -->
+  <!-- ====== STAFF ====== -->
   <div class="mt-6">
     <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold">Stylist / technician <span class="font-normal normal-case text-[#594841] opacity-60">(optional)</span></h3>
     <div class="flex flex-wrap gap-2 mt-2" id="staffList">
@@ -263,15 +246,15 @@
     </div>
   </div>
 
-  <!-- ====== DATE + TIME ====== -->
+  <!-- ====== DATE + TIME (same size as other inputs) ====== -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
     <div>
       <label for="bookingDate" class="block text-sm font-medium text-[#594841] mb-1">Date</label>
-      <input type="date" id="bookingDate" class="input-field" min="2026-07-16" value="2026-07-16">
+      <input type="date" id="bookingDate" class="input-field" min="2026-07-16" value="2026-07-16" />
     </div>
     <div>
       <label for="bookingTime" class="block text-sm font-medium text-[#594841] mb-1">Time</label>
-      <input type="time" id="bookingTime" class="input-field" step="900" min="09:00" max="19:00" value="11:30">
+      <input type="time" id="bookingTime" class="input-field" step="900" min="09:00" max="19:00" value="11:30" />
       <p class="text-[0.7rem] text-[#684F48] opacity-60 mt-0.5">business hours 9:00 – 19:00</p>
     </div>
   </div>
@@ -280,17 +263,16 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
     <div>
       <label for="clientName" class="block text-sm font-medium text-[#594841] mb-1">Full name <span class="text-[#684F48]">*</span></label>
-      <input type="text" id="clientName" class="input-field" placeholder="e.g. Elena V.">
+      <input type="text" id="clientName" class="input-field" placeholder="e.g. Elena V." />
     </div>
     <div>
       <label for="clientPhone" class="block text-sm font-medium text-[#594841] mb-1">Phone <span class="text-[#684F48]">*</span></label>
-      <input type="tel" id="clientPhone" class="input-field" placeholder="+33 6 12 34 56 78">
+      <input type="tel" id="clientPhone" class="input-field" placeholder="+33 6 12 34 56 78" />
     </div>
   </div>
 
-  <!-- ====== LIVE SUMMARY + ACTIONS ====== -->
+  <!-- ====== SUMMARY + ACTIONS ====== -->
   <div class="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
-    <!-- summary panel -->
     <div class="lg:col-span-3 summary-panel">
       <h4 class="text-sm uppercase tracking-wider text-[#594841] font-semibold opacity-70 flex items-center gap-2">
         <span>⏤</span> booking summary
@@ -304,7 +286,6 @@
       </div>
     </div>
 
-    <!-- action buttons + copy fallback -->
     <div class="lg:col-span-2 flex flex-col gap-3">
       <button id="whatsappBtn" class="btn-primary w-full" disabled>
         <span>📱</span> Send via WhatsApp
@@ -312,23 +293,20 @@
       <button id="telegramBtn" class="btn-outline-walnut w-full" disabled>
         <span>✈️</span> Send via Telegram
       </button>
-      <!-- copy fallback (shown only when telegram is enabled) -->
       <button id="copyFallbackBtn" class="text-sm text-[#684F48] underline-offset-2 hover:underline opacity-70 transition" style="background: none; border: none; cursor: pointer; padding: 0.2rem;">📋 Copy message (fallback)</button>
       <div id="validationMessage" class="text-sm text-[#b13e3e] min-h-[1.4rem] mt-1"></div>
     </div>
   </div>
 
-  <!-- hidden field for salon name etc -->
+  <!-- hidden meta -->
   <div style="display: none;" id="salonMeta" data-salooname="Silk & Tonic" data-phone="33123456789" data-telegram="silklounge"></div>
-  <!-- data-phone intl without +, telegram username -->
-
 </div>
 
 <script>
   (function() {
     "use strict";
 
-    // ----- DOM refs -----
+    // DOM refs
     const serviceTags = document.querySelectorAll('.service-tag');
     const staffOptions = document.querySelectorAll('.staff-option');
     const dateInput = document.getElementById('bookingDate');
@@ -347,18 +325,16 @@
     const copyFallback = document.getElementById('copyFallbackBtn');
     const validationMsg = document.getElementById('validationMessage');
 
-    // salon meta
+    // meta
     const salonName = document.getElementById('salonMeta').dataset.salooname || 'Silk & Tonic';
     const phoneIntl = document.getElementById('salonMeta').dataset.phone || '33123456789';
     const telegramUser = document.getElementById('salonMeta').dataset.telegram || 'silklounge';
 
-    // state
     let selectedService = null;
     let selectedStaff = null;
 
-    // ----- helpers: update summary & validation -----
-    function updateSummaryAndButtons() {
-      // gather values
+    // update summary + buttons
+    function updateUI() {
       const service = selectedService || '—';
       const staff = selectedStaff || '—';
       const date = dateInput.value || '—';
@@ -372,7 +348,6 @@
       summaryClient.textContent = name;
       summaryPhone.textContent = phone;
 
-      // required fields: name, phone, service, date, time
       const nameOk = nameInput.value.trim().length > 0;
       const phoneOk = phoneInput.value.trim().length > 0;
       const serviceOk = selectedService !== null;
@@ -397,46 +372,42 @@
       }
     }
 
-    // ----- service selection -----
+    // service click
     serviceTags.forEach(tag => {
-      tag.addEventListener('click', function(e) {
+      tag.addEventListener('click', function() {
         serviceTags.forEach(t => t.classList.remove('selected'));
         this.classList.add('selected');
         selectedService = this.dataset.service;
-        updateSummaryAndButtons();
+        updateUI();
       });
     });
 
-    // ----- staff selection (optional) -----
+    // staff click
     staffOptions.forEach(opt => {
       opt.addEventListener('click', function() {
         staffOptions.forEach(o => o.classList.remove('selected'));
         this.classList.add('selected');
         selectedStaff = this.dataset.staff;
-        updateSummaryAndButtons();
+        updateUI();
       });
     });
 
-    // ----- date/time, name, phone changes -----
+    // inputs
     [dateInput, timeInput, nameInput, phoneInput].forEach(inp => {
-      inp.addEventListener('change', updateSummaryAndButtons);
-      inp.addEventListener('input', updateSummaryAndButtons);
+      inp.addEventListener('change', updateUI);
+      inp.addEventListener('input', updateUI);
     });
 
-    // set default date to today if not set
+    // set defaults
     if (!dateInput.value) {
       const today = new Date().toISOString().split('T')[0];
       dateInput.value = today;
     }
-    // set default time if empty
-    if (!timeInput.value) {
-      timeInput.value = '11:30';
-    }
+    if (!timeInput.value) timeInput.value = '11:30';
 
-    // initial update
-    updateSummaryAndButtons();
+    updateUI();
 
-    // ----- build message -----
+    // build message
     function buildMessage() {
       const name = nameInput.value.trim() || '—';
       const phone = phoneInput.value.trim() || '—';
@@ -452,35 +423,28 @@ Date/Time: ${date} at ${time}
 Phone: ${phone}`;
     }
 
-    // ----- send via whatsapp -----
+    // whatsapp
     whatsappBtn.addEventListener('click', function() {
       const msg = buildMessage();
       const encoded = encodeURIComponent(msg);
-      const url = `https://wa.me/${phoneIntl}?text=${encoded}`;
-      window.open(url, '_blank');
+      window.open(`https://wa.me/${phoneIntl}?text=${encoded}`, '_blank');
     });
 
-    // ----- send via telegram (with copy fallback) -----
+    // telegram
     telegramBtn.addEventListener('click', function() {
       const msg = buildMessage();
       const encoded = encodeURIComponent(msg);
-      // Telegram pre-fill is less consistent, but we still try.
-      const url = `https://t.me/${telegramUser}?text=${encoded}`;
-      window.open(url, '_blank');
-      // Also show copy fallback hint (already visible)
+      window.open(`https://t.me/${telegramUser}?text=${encoded}`, '_blank');
     });
 
-    // ----- copy fallback (Clipboard API) -----
+    // copy fallback
     copyFallback.addEventListener('click', function() {
       const msg = buildMessage();
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(msg).then(() => {
           validationMsg.textContent = '✅ Message copied to clipboard.';
           setTimeout(() => { validationMsg.textContent = ''; }, 3000);
-        }).catch(() => {
-          // fallback
-          fallbackCopy(msg);
-        });
+        }).catch(() => fallbackCopy(msg));
       } else {
         fallbackCopy(msg);
       }
@@ -503,19 +467,10 @@ Phone: ${phone}`;
       document.body.removeChild(ta);
     }
 
-    // ----- extra: ensure inline validation on blur -----
-    [nameInput, phoneInput].forEach(inp => {
-      inp.addEventListener('blur', updateSummaryAndButtons);
-    });
-
-    // re-run after any change
-    // also update summary if service/staff clicked again
-    // all set.
+    // ensure "Book Now" scroll works (anchor)
+    // the anchor #booking-start already exists
   })();
 </script>
-
-<!-- minimal note about Telegram fallback (code comment) -->
-<!-- Telegram's text pre-fill is less consistently supported across clients than WhatsApp's,
-     so we added a visible "Copy message" fallback button using the Clipboard API. -->
+<!-- Telegram pre-fill fallback note: Telegram's text pre-fill is less consistent, so we added a visible "Copy message" fallback button using the Clipboard API. -->
 </body>
 </html>
