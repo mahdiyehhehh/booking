@@ -1,550 +1,670 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>{{BARBERSHOP_NAME}} | Premium Booking</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aether Salon | Hair &amp; Beauty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@400;500;600&amp;display=swap');
+        
+        :root {
+            --ice-blue: #D6E9ED;
+            --slate: #CCD6D6;
+            --walnut: #684F48;
+            --espresso: #594841;
+            --offwhite: #F5F3F0;
+            --nearblack: #1A1512;
+        }
+        
+        .tail-container {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
 
-<script src="https://cdn.tailwindcss.com"></script>
+        .hero-bg {
+            background: linear-gradient(rgba(26, 21, 18, 0.65), rgba(26, 21, 18, 0.75)), url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat;
+        }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        .service-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
 
-<style>
-:root{
---bg:#594841;
---accent:#684F48;
---panel:#CCD6D6;
---ice:#D6E9ED;
---paper:#F5F3F0;
---text:#1A1512;
-}
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #684F48;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
 
-html{
-scroll-behavior:smooth;
-}
+        .selected {
+            border-color: #684F48;
+            background-color: #F5F3F0;
+        }
 
-body{
-font-family:Inter,sans-serif;
-background:var(--bg);
-color:var(--paper);
-}
+        input[type="date"], input[type="time"] {
+            color-scheme: light;
+        }
 
-h1,h2,h3{
-font-family:"Bebas Neue",sans-serif;
-letter-spacing:.08em;
-}
-
-.chamfer{
-clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
-}
-
-.service-card,
-.barber-card{
-transition:.25s;
-cursor:pointer;
-}
-
-.service-card.active,
-.barber-card.active{
-background:var(--accent)!important;
-color:white;
-border-color:var(--ice)!important;
-transform:translateY(-2px);
-}
-
-input,select{
-transition:.2s;
-}
-
-input:focus,
-select:focus{
-outline:none;
-border-color:var(--accent);
-box-shadow:0 0 0 3px rgba(214,233,237,.45);
-}
-
-button{
-transition:.2s;
-}
-
-button:disabled{
-opacity:.45;
-cursor:not-allowed;
-}
-
-.summary-row{
-display:flex;
-justify-content:space-between;
-gap:16px;
-padding:.55rem 0;
-border-bottom:1px solid rgba(0,0,0,.08);
-}
-
-::-webkit-calendar-picker-indicator{
-cursor:pointer;
-}
-
-</style>
+        .form-input {
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(104, 79, 72, 0.2);
+            border-color: #684F48;
+        }
+    </style>
 </head>
-
-<body>
-
-<section class="min-h-screen flex items-center border-b border-white/10">
-
-<div class="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 w-full">
-
-<div class="flex flex-col justify-center">
-
-<p class="uppercase tracking-[0.45em] text-sm text-[#CCD6D6] mb-5">
-Premium Grooming Lounge
-</p>
-
-<h1 class="text-7xl md:text-8xl leading-none">
-{{BARBERSHOP_NAME}}
-</h1>
-
-<p class="mt-6 text-lg text-[#D6E9ED] max-w-xl leading-relaxed">
-Precision cuts. Sharp fades. Traditional craftsmanship with modern style.
-Book your appointment in under a minute.
-</p>
-
-<div class="mt-10 space-y-2 text-[#CCD6D6]">
-
-<div><strong>Hours:</strong> {{HOURS}}</div>
-
-<div><strong>Address:</strong> {{ADDRESS}}</div>
-
-</div>
-
-<a href="#booking"
-class="mt-12 inline-flex w-fit items-center px-8 py-4 font-semibold tracking-wide uppercase bg-[#684F48] hover:bg-[#7a5e56] text-white chamfer">
-Book Now
-</a>
-
-</div>
-
-<div class="hidden lg:flex items-center justify-center">
-
-<div class="w-full h-[600px] border border-[#CCD6D6] bg-gradient-to-br from-[#684F48] to-[#594841] chamfer flex items-center justify-center">
-
-<div class="text-center">
-
-<div class="text-8xl">✂</div>
-
-<p class="uppercase tracking-[0.4em] text-[#CCD6D6] mt-8">
-Confidence Starts Here
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<section id="booking" class="py-20">
-
-<div class="max-w-7xl mx-auto px-6 grid xl:grid-cols-3 gap-10">
-
-<div class="xl:col-span-2 space-y-10">
-
-<div class="bg-[#F5F3F0] text-[#1A1512] p-8 chamfer">
-
-<h2 class="text-4xl mb-6">
-Services
-</h2>
-
-<div id="servicesGrid" class="grid md:grid-cols-2 gap-4">
-
-</div>
-
-<div id="serviceError" class="text-red-700 text-sm mt-4 hidden">
-Please choose a service.
-</div>
-
-</div>
-
-<div class="bg-[#F5F3F0] text-[#1A1512] p-8 chamfer">
-
-<h2 class="text-4xl mb-6">
-Choose Barber
-</h2>
-
-<div id="barbersGrid" class="grid md:grid-cols-3 gap-4">
-
-</div>
-
-</div>
-
-<div class="bg-[#F5F3F0] text-[#1A1512] p-8 chamfer">
-
-<h2 class="text-4xl mb-6">
-Appointment
-</h2>
-
-<div class="grid md:grid-cols-2 gap-6">
-
-<div>
-
-<label for="date" class="font-semibold block mb-2">
-Date
-</label>
-
-<input id="date" type="date"
-class="w-full border-2 border-[#CCD6D6] p-3 bg-white">
-
-<p id="dateError" class="text-red-700 text-sm mt-2 hidden">
-Select a valid date.
-</p>
-
-</div>
-
-<div>
-
-<label for="time" class="font-semibold block mb-2">
-Time
-</label>
-
-<select id="time"
-class="w-full border-2 border-[#CCD6D6] p-3 bg-white">
-<option value="">Select Time</option>
-</select>
-
-<p id="timeError" class="text-red-700 text-sm mt-2 hidden">
-Choose a time.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="bg-[#F5F3F0] text-[#1A1512] p-8 chamfer">
-
-<h2 class="text-4xl mb-6">
-Client Information
-</h2>
-
-<div class="space-y-6">
-
-<div>
-
-<label class="font-semibold block mb-2" for="name">
-Full Name
-</label>
-
-<input
-id="name"
-type="text"
-class="w-full border-2 border-[#CCD6D6] p-3">
-
-<p id="nameError" class="text-red-700 text-sm mt-2 hidden">
-Please enter your name.
-</p>
-
-</div>
-
-<div>
-
-<label class="font-semibold block mb-2" for="phone">
-Phone Number
-</label>
-
-<input
-id="phone"
-type="tel"
-class="w-full border-2 border-[#CCD6D6] p-3">
-
-<p id="phoneError" class="text-red-700 text-sm mt-2 hidden">
-Please enter your phone number.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="flex flex-wrap gap-4">
-
-<button
-id="waBtn"
-disabled
-class="flex-1 bg-[#684F48] text-white px-6 py-4 uppercase tracking-wider font-bold hover:bg-[#7d625b]">
-Send via WhatsApp
-</button>
-
-<div class="flex-1 flex gap-3">
-
-<button
-id="tgBtn"
-disabled
-class="flex-1 border-2 border-[#684F48] text-[#684F48] bg-[#F5F3F0] uppercase font-bold hover:bg-[#D6E9ED]">
-Send via Telegram
-</button>
-
-<button
-id="copyBtn"
-type="button"
-class="px-5 bg-[#CCD6D6] text-[#1A1512] font-semibold">
-Copy Message
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<div>
-
-<div class="sticky top-8 bg-[#D6E9ED] text-[#1A1512] p-8 chamfer">
-
-<h2 class="text-4xl mb-6">
-Booking Summary
-</h2>
-
-<div id="summary">
-
-<div class="summary-row"><span>Service</span><strong id="sumService">—</strong></div>
-
-<div class="summary-row"><span>Barber</span><strong id="sumBarber">Any</strong></div>
-
-<div class="summary-row"><span>Date</span><strong id="sumDate">—</strong></div>
-
-<div class="summary-row"><span>Time</span><strong id="sumTime">—</strong></div>
-
-<div class="summary-row"><span>Name</span><strong id="sumName">—</strong></div>
-
-<div class="summary-row border-0"><span>Phone</span><strong id="sumPhone">—</strong></div>
-
-</div>
-
-<hr class="my-6">
-
-<pre id="messagePreview" class="text-sm whitespace-pre-wrap font-sans"></pre>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<script>
-
-const services=[
-{name:"Skin Fade",duration:"45 min",price:"$35"},
-{name:"Classic Cut",duration:"30 min",price:"$28"},
-{name:"Beard Trim & Line-Up",duration:"20 min",price:"$18"},
-{name:"Hot Towel Shave",duration:"35 min",price:"$30"},
-{name:"Cut + Beard Combo",duration:"60 min",price:"$48"},
-{name:"Kids Cut",duration:"25 min",price:"$22"}
-];
-// {{SERVICES_LIST}}
-
-const barbers=[
-"Alex",
-"Marcus",
-"Daniel"
-];
-// {{BARBER_LIST}}
-
-const servicesGrid=document.getElementById("servicesGrid");
-const barbersGrid=document.getElementById("barbersGrid");
-
-let selectedService="";
-let selectedBarber="Any";
-
-services.forEach(s=>{
-
-const card=document.createElement("div");
-
-card.className="service-card border-2 border-[#CCD6D6] p-5 bg-white";
-
-card.innerHTML=`
-<div class="font-bold text-lg">${s.name}</div>
-<div class="text-sm mt-2">${s.duration}</div>
-<div class="font-semibold mt-2">${s.price}</div>
-`;
-
-card.onclick=()=>{
-
-document.querySelectorAll(".service-card").forEach(x=>x.classList.remove("active"));
-
-card.classList.add("active");
-
-selectedService=s.name;
-
-update();
-
-};
-
-servicesGrid.appendChild(card);
-
-});
-
-barbers.forEach(name=>{
-
-const card=document.createElement("div");
-
-card.className="barber-card border-2 border-[#CCD6D6] bg-white p-5 text-center";
-
-card.innerHTML=`
-<div class="w-16 h-16 mx-auto bg-[#684F48] text-white flex items-center justify-center text-xl font-bold mb-4">
-${name.charAt(0)}
-</div>
-<div class="font-semibold">${name}</div>
-`;
-
-card.onclick=()=>{
-
-document.querySelectorAll(".barber-card").forEach(x=>x.classList.remove("active"));
-
-card.classList.add("active");
-
-selectedBarber=name;
-
-update();
-
-};
-
-barbersGrid.appendChild(card);
-
-});
-
-const timeSelect=document.getElementById("time");
-
-for(let h=9;h<=18;h++){
-
-["00","30"].forEach(m=>{
-
-if(h===18 && m==="30") return;
-
-const value=`${String(h).padStart(2,"0")}:${m}`;
-
-const option=document.createElement("option");
-
-option.value=value;
-
-option.textContent=value;
-
-timeSelect.appendChild(option);
-
-});
-
-}
-
-const date=document.getElementById("date");
-const today=new Date();
-date.min=today.toISOString().split("T")[0];
-
-const nameInput=document.getElementById("name");
-const phoneInput=document.getElementById("phone");
-
-const waBtn=document.getElementById("waBtn");
-const tgBtn=document.getElementById("tgBtn");
-
-function message(){
-
-return `New booking request — {{BARBERSHOP_NAME}}
-
-Name: ${nameInput.value}
-
-Service: ${selectedService}
-
-Barber: ${selectedBarber}
-
-Date/Time: ${date.value} at ${timeSelect.value}
-
-Phone: ${phoneInput.value}`;
-
-}
-
-function update(){
-
-document.getElementById("sumService").textContent=selectedService||"—";
-document.getElementById("sumBarber").textContent=selectedBarber||"Any";
-document.getElementById("sumDate").textContent=date.value||"—";
-document.getElementById("sumTime").textContent=timeSelect.value||"—";
-document.getElementById("sumName").textContent=nameInput.value||"—";
-document.getElementById("sumPhone").textContent=phoneInput.value||"—";
-
-document.getElementById("messagePreview").textContent=message();
-
-validate();
-
-}
-
-function validate(){
-
-const valid=
-nameInput.value.trim() &&
-phoneInput.value.trim() &&
-selectedService &&
-date.value &&
-timeSelect.value;
-
-waBtn.disabled=!valid;
-tgBtn.disabled=!valid;
-
-document.getElementById("nameError").classList.toggle("hidden",nameInput.value.trim());
-document.getElementById("phoneError").classList.toggle("hidden",phoneInput.value.trim());
-document.getElementById("serviceError").classList.toggle("hidden",selectedService);
-document.getElementById("dateError").classList.toggle("hidden",date.value);
-document.getElementById("timeError").classList.toggle("hidden",timeSelect.value);
-
-}
-
-[nameInput,phoneInput,date,timeSelect].forEach(el=>el.addEventListener("input",update));
-
-waBtn.onclick=()=>{
-
-const text=encodeURIComponent(message());
-
-window.open(`https://wa.me/{{PHONE_NUMBER_INTL}}?text=${text}`,"_blank");
-
-};
-
-/*
-Telegram text pre-fill support is less consistent across clients than WhatsApp.
-A Clipboard API fallback is provided with the Copy Message button.
-*/
-
-tgBtn.onclick=()=>{
-
-const text=encodeURIComponent(message());
-
-window.open(`https://t.me/{{TELEGRAM_USERNAME}}?text=${text}`,"_blank");
-
-};
-
-document.getElementById("copyBtn").onclick=async()=>{
-
-try{
-
-await navigator.clipboard.writeText(message());
-
-const btn=document.getElementById("copyBtn");
-
-btn.textContent="Copied";
-
-setTimeout(()=>btn.textContent="Copy Message",1800);
-
-}catch(e){}
-
-};
-
-update();
-
-</script>
-
+<body class="tail-container bg-[#D6E9ED] text-[#1A1512] overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav class="bg-[#F5F3F0] border-b border-[#CCD6D6] sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-8 h-8 bg-[#684F48] rounded-full flex items-center justify-center text-white text-xl font-bold heading-font">A</div>
+                <div>
+                    <span class="heading-font text-3xl tracking-tight font-semibold text-[#594841]">AETHER</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                <a href="#services" onclick="smoothScrollTo('services')" class="nav-link text-[#594841] hover:text-[#684F48]">Services</a>
+                <a href="#team" onclick="smoothScrollTo('team')" class="nav-link text-[#594841] hover:text-[#684F48]">Our Team</a>
+                <a href="#book" onclick="smoothScrollTo('book')" class="nav-link text-[#594841] hover:text-[#684F48]">Book Now</a>
+            </div>
+            
+            <div class="flex items-center gap-x-4">
+                <a href="https://wa.me/15551234567" target="_blank" 
+                   class="hidden sm:flex items-center gap-x-2 px-5 py-2.5 bg-[#684F48] hover:bg-[#594841] text-white text-sm font-medium rounded-2xl transition-colors">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+                <button onclick="toggleMobileMenu()" 
+                        class="md:hidden w-10 h-10 flex items-center justify-center text-[#594841]">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- MOBILE MENU -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#F5F3F0] border-t border-[#CCD6D6]">
+            <div class="px-6 py-6 flex flex-col gap-y-6 text-lg">
+                <a href="#services" onclick="smoothScrollTo('services');toggleMobileMenu()" class="font-medium">Services</a>
+                <a href="#team" onclick="smoothScrollTo('team');toggleMobileMenu()" class="font-medium">Our Team</a>
+                <a href="#book" onclick="smoothScrollTo('book');toggleMobileMenu()" class="font-medium">Book Appointment</a>
+                <div class="pt-4 border-t border-[#CCD6D6]">
+                    <a href="https://wa.me/15551234567" target="_blank" 
+                       class="flex items-center justify-center gap-x-3 w-full py-4 bg-[#684F48] text-white rounded-3xl font-medium">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <span>Message on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header id="hero" class="hero-bg h-screen flex items-center relative">
+        <div class="max-w-4xl mx-auto px-6 text-center text-white">
+            <div class="inline-flex items-center gap-x-2 bg-white/20 backdrop-blur-md px-6 py-2 rounded-3xl text-sm mb-6">
+                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                <span class="tracking-widest uppercase font-medium">Est. 2022 • New York</span>
+            </div>
+            
+            <h1 class="heading-font text-7xl md:text-8xl font-medium tracking-tighter leading-none mb-4">
+                AETHER<br>SALON
+            </h1>
+            <p class="text-2xl md:text-3xl font-light tracking-wide mb-8 max-w-md mx-auto">Quiet luxury for hair and nails</p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                <div class="flex items-center gap-x-8 text-sm">
+                    <div>
+                        <span class="block text-xs tracking-widest opacity-75">HOURS</span>
+                        <span class="font-medium">Tue–Sun 9am–7pm</span>
+                    </div>
+                    <div class="h-8 w-px bg-white/30"></div>
+                    <div>
+                        <span class="block text-xs tracking-widest opacity-75">LOCATION</span>
+                        <span class="font-medium">123 Serenity Lane</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="smoothScrollTo('book')" 
+                    class="group px-10 py-6 bg-[#F5F3F0] hover:bg-white text-[#1A1512] rounded-3xl text-lg font-medium flex items-center gap-x-4 mx-auto transition-all hover:shadow-2xl">
+                <span>BOOK YOUR APPOINTMENT</span>
+                <i class="fa-solid fa-arrow-down group-active:rotate-45 transition-transform"></i>
+            </button>
+            
+            <div class="absolute bottom-12 left-1/2 flex flex-col items-center gap-y-2 text-xs tracking-widest">
+                <div class="animate-bounce">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <span>SCROLL TO EXPLORE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- SERVICES -->
+    <section id="services" class="py-24 bg-[#F5F3F0]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="px-4 py-1.5 bg-[#D6E9ED] text-[#594841] text-xs tracking-[2px] font-medium rounded-3xl">SERVICES</span>
+                <h2 class="heading-font text-5xl text-[#594841] mt-4">Signature Experiences</h2>
+            </div>
+            
+            <!-- Hair Services -->
+            <div class="mb-16">
+                <div class="flex items-center gap-x-3 mb-8">
+                    <i class="fa-solid fa-scissors text-3xl text-[#684F48]"></i>
+                    <h3 class="heading-font text-3xl text-[#594841]">Hair</h3>
+                </div>
+                <div id="hair-services" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+            
+            <!-- Nails Services -->
+            <div>
+                <div class="flex items-center gap-x-3 mb-8">
+                    <i class="fa-solid fa-hand-sparkles text-3xl text-[#684F48]"></i>
+                    <h3 class="heading-font text-3xl text-[#594841]">Nails</h3>
+                </div>
+                <div id="nail-services" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="py-24 bg-[#D6E9ED]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="px-4 py-1.5 bg-white text-[#594841] text-xs tracking-[2px] font-medium rounded-3xl">OUR CRAFTSMEN</span>
+                <h2 class="heading-font text-5xl text-[#594841] mt-4">Meet the Team</h2>
+            </div>
+            
+            <div id="team-grid" class="grid md:grid-cols-4 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- BOOKING SECTION -->
+    <section id="book" class="py-24 bg-[#F5F3F0]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-12 gap-10">
+                <!-- FORM -->
+                <div class="lg:col-span-7 bg-white rounded-3xl shadow-xl p-10">
+                    <h2 class="heading-font text-4xl mb-8 text-[#594841]">Reserve Your Time</h2>
+                    
+                    <form id="booking-form" onsubmit="handleSubmit(event)">
+                        <!-- Service Selection -->
+                        <div class="mb-8">
+                            <label class="block text-sm font-medium text-[#594841] mb-3">SELECT SERVICE</label>
+                            <div class="grid grid-cols-2 gap-3" id="service-select-grid"></div>
+                        </div>
+                        
+                        <!-- Staff -->
+                        <div class="mb-8">
+                            <label class="block text-sm font-medium text-[#594841] mb-3">PREFERRED STYLIST</label>
+                            <div class="grid grid-cols-4 gap-3" id="staff-select-grid"></div>
+                        </div>
+                        
+                        <!-- Date &amp; Time -->
+                        <div class="grid grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <label class="block text-sm font-medium text-[#594841] mb-3">DATE</label>
+                                <input id="date-input" 
+                                       type="date" 
+                                       class="form-input w-full px-6 py-5 bg-[#F5F3F0] border border-[#CCD6D6] rounded-3xl focus:outline-none text-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#594841] mb-3">TIME</label>
+                                <input id="time-input" 
+                                       type="time" 
+                                       class="form-input w-full px-6 py-5 bg-[#F5F3F0] border border-[#CCD6D6] rounded-3xl focus:outline-none text-lg">
+                            </div>
+                        </div>
+                        
+                        <!-- Client Info -->
+                        <div class="grid grid-cols-2 gap-6 mb-10">
+                            <div>
+                                <label class="block text-sm font-medium text-[#594841] mb-3">FULL NAME</label>
+                                <input id="name-input" 
+                                       type="text" 
+                                       placeholder="Alex Rivera"
+                                       class="form-input w-full px-6 py-5 bg-[#F5F3F0] border border-[#CCD6D6] rounded-3xl focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#594841] mb-3">PHONE NUMBER</label>
+                                <input id="phone-input" 
+                                       type="tel" 
+                                       placeholder="+1 (555) 123-4567"
+                                       class="form-input w-full px-6 py-5 bg-[#F5F3F0] border border-[#CCD6D6] rounded-3xl focus:outline-none">
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button id="whatsapp-btn"
+                                    onclick="sendToWhatsApp(); return false;"
+                                    type="button"
+                                    class="flex-1 flex items-center justify-center gap-x-3 bg-[#25D366] hover:bg-[#20c15b] text-white py-6 rounded-3xl text-lg font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                                <i class="fa-brands fa-whatsapp text-3xl"></i>
+                                <span>SEND VIA WHATSAPP</span>
+                            </button>
+                            
+                            <button id="telegram-btn"
+                                    onclick="sendToTelegram(); return false;"
+                                    type="button"
+                                    class="flex-1 flex items-center justify-center gap-x-3 bg-[#229ED9] hover:bg-[#1f8dc6] text-white py-6 rounded-3xl text-lg font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                                <i class="fa-brands fa-telegram text-3xl"></i>
+                                <span>SEND VIA TELEGRAM</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- LIVE SUMMARY -->
+                <div class="lg:col-span-5">
+                    <div class="bg-[#D6E9ED] border border-[#CCD6D6] rounded-3xl p-8 sticky top-8">
+                        <h3 class="uppercase tracking-widest text-xs font-semibold mb-6 text-[#594841]">YOUR BOOKING</h3>
+                        
+                        <div id="summary-content" class="min-h-[380px]">
+                            <!-- Populated by JS -->
+                            <div class="flex flex-col items-center justify-center h-full text-center py-12 opacity-60">
+                                <i class="fa-solid fa-calendar text-6xl mb-6 text-[#684F48]"></i>
+                                <p class="font-medium">Fill the form to preview your booking</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-8 border-t border-[#CCD6D6] mt-8">
+                            <button onclick="copyBookingMessage()" 
+                                    class="w-full py-4 text-sm border border-[#684F48] text-[#684F48] hover:bg-[#684F48] hover:text-white rounded-3xl transition-all flex items-center justify-center gap-x-2">
+                                <i class="fa-solid fa-copy"></i>
+                                <span>COPY MESSAGE</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#1A1512] text-[#D6E9ED] py-20">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-y-16">
+            <div class="md:col-span-5">
+                <div class="flex items-center gap-x-3 mb-6">
+                    <div class="w-9 h-9 bg-[#F5F3F0] text-[#1A1512] rounded-2xl flex items-center justify-center text-3xl font-bold heading-font">A</div>
+                    <span class="heading-font text-4xl text-white">AETHER</span>
+                </div>
+                <p class="max-w-xs text-[#CCD6D6]">An intimate salon where precision meets presence.</p>
+                
+                <div class="mt-10 flex gap-x-8">
+                    <div>
+                        <div class="text-xs opacity-60">CALL OR TEXT</div>
+                        <a href="tel:+15551234567" class="block text-xl font-medium hover:text-white">(555) 123-4567</a>
+                    </div>
+                    <div>
+                        <div class="text-xs opacity-60">EMAIL</div>
+                        <a href="mailto:hello@aethersalon.com" class="block text-xl font-medium hover:text-white">hello@aethersalon.com</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="md:col-span-3">
+                <div class="uppercase text-xs tracking-widest mb-6">Visit Us</div>
+                <div class="space-y-2 text-[#CCD6D6]">
+                    <div>123 Serenity Lane</div>
+                    <div>Wellness District</div>
+                    <div>New York, NY 10013</div>
+                </div>
+            </div>
+            
+            <div class="md:col-span-4">
+                <div class="uppercase text-xs tracking-widest mb-6">Hours</div>
+                <div class="grid grid-cols-2 gap-y-4 text-[#CCD6D6]">
+                    <div>Tuesday – Sunday</div>
+                    <div class="text-right">9:00 AM – 7:00 PM</div>
+                    <div class="col-span-2 pt-4 border-t border-white/10 text-xs opacity-50">Monday by appointment only</div>
+                </div>
+                
+                <div class="mt-16 text-xs opacity-50">
+                    © 2030 Aether Salon. All rights reserved.<br>
+                    Crafted with intention.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script already included via CDN
+        function initializeTailwind() {
+            // Already configured via classes
+        }
+        
+        // Data
+        const services = [
+            { id: 1, category: "hair", name: "Cut & Style", duration: "60 min", price: "$85" },
+            { id: 2, category: "hair", name: "Balayage / Color", duration: "120 min", price: "$150" },
+            { id: 3, category: "hair", name: "Signature Blowout", duration: "45 min", price: "$55" },
+            { id: 4, category: "hair", name: "Keratin Treatment", duration: "90 min", price: "$120" },
+            { id: 5, category: "hair", name: "Hair Extensions", duration: "180 min", price: "$250" },
+            { id: 6, category: "nails", name: "Classic Manicure", duration: "45 min", price: "$40" },
+            { id: 7, category: "nails", name: "Gel Manicure", duration: "60 min", price: "$55" },
+            { id: 8, category: "nails", name: "Spa Pedicure", duration: "60 min", price: "$65" },
+            { id: 9, category: "nails", name: "Nail Art Design", duration: "30 min", price: "$30" }
+        ];
+        
+        const staffMembers = [
+            { id: 1, name: "Elena Voss", role: "Lead Stylist", img: "https://picsum.photos/id/64/300/300" },
+            { id: 2, name: "Marcus Hale", role: "Color Specialist", img: "https://picsum.photos/id/201/300/300" },
+            { id: 3, name: "Isabella Ruiz", role: "Nail Artist", img: "https://picsum.photos/id/1009/300/300" },
+            { id: 4, name: "Theo Lang", role: "Senior Stylist", img: "https://picsum.photos/id/201/300/300" }
+        ];
+        
+        let selectedService = null;
+        let selectedStaff = null;
+        
+        // Render services
+        function renderServices() {
+            const hairContainer = document.getElementById("hair-services");
+            const nailContainer = document.getElementById("nail-services");
+            const selectGrid = document.getElementById("service-select-grid");
+            
+            hairContainer.innerHTML = '';
+            nailContainer.innerHTML = '';
+            selectGrid.innerHTML = '';
+            
+            services.forEach(service => {
+                // Main service cards
+                const cardHTML = `
+                    <div onclick="selectService(${service.id})" 
+                         class="service-card cursor-pointer bg-white border border-transparent p-6 rounded-3xl ${selectedService && selectedService.id === service.id ? 'selected' : ''}">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="font-medium text-xl">${service.name}</div>
+                                <div class="text-sm text-[#684F48]">${service.duration}</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-2xl text-[#594841]">${service.price}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                if (service.category === "hair") {
+                    hairContainer.innerHTML += cardHTML;
+                } else {
+                    nailContainer.innerHTML += cardHTML;
+                }
+                
+                // Selection grid
+                const selectCardHTML = `
+                    <div onclick="selectService(${service.id}); updateSummary()" 
+                         class="cursor-pointer text-center border-2 border-transparent hover:border-[#CCD6D6] p-4 rounded-3xl transition-all ${selectedService && selectedService.id === service.id ? 'border-[#684F48] bg-[#F5F3F0]' : 'bg-white'}">
+                        <div class="text-xs text-[#684F48]">${service.category.toUpperCase()}</div>
+                        <div class="font-medium text-sm mt-1 leading-tight">${service.name}</div>
+                    </div>
+                `;
+                selectGrid.innerHTML += selectCardHTML;
+            });
+        }
+        
+        // Render team
+        function renderTeam() {
+            const container = document.getElementById("team-grid");
+            container.innerHTML = '';
+            
+            staffMembers.forEach(staff => {
+                const div = document.createElement("div");
+                div.className = `cursor-pointer group rounded-3xl overflow-hidden border border-transparent hover:border-[#684F48] transition-all ${selectedStaff && selectedStaff.id === staff.id ? 'border-[#684F48]' : ''}`;
+                div.innerHTML = `
+                    <div class="aspect-square">
+                        <img src="${staff.img}" alt="${staff.name}" 
+                             class="w-full h-full object-cover transition-all group-hover:scale-105">
+                    </div>
+                    <div class="p-6 bg-white">
+                        <div class="font-semibold">${staff.name}</div>
+                        <div class="text-xs text-[#684F48]">${staff.role}</div>
+                    </div>
+                `;
+                div.onclick = () => {
+                    selectedStaff = staff;
+                    renderTeam();
+                    updateSummary();
+                };
+                container.appendChild(div);
+            });
+        }
+        
+        function selectService(id) {
+            selectedService = services.find(s => s.id === id);
+            renderServices();
+            updateSummary();
+        }
+        
+        // Update live summary
+        function updateSummary() {
+            const summaryEl = document.getElementById("summary-content");
+            const name = document.getElementById("name-input").value.trim();
+            const phone = document.getElementById("phone-input").value.trim();
+            const dateVal = document.getElementById("date-input").value;
+            const timeVal = document.getElementById("time-input").value;
+            
+            let html = `
+                <div class="space-y-8">
+            `;
+            if (selectedService) {
+                html += `
+                    <div>
+                        <div class="uppercase text-[10px] tracking-widest text-[#684F48]">SERVICE</div>
+                        <div class="font-medium">${selectedService.name}</div>
+                        <div class="text-xs text-[#594841]">${selectedService.duration} • ${selectedService.price}</div>
+                    </div>
+                `;
+            }
+            
+            if (selectedStaff) {
+                html += `
+                    <div>
+                        <div class="uppercase text-[10px] tracking-widest text-[#684F48]">WITH</div>
+                        <div class="font-medium">${selectedStaff.name}</div>
+                    </div>
+                `;
+            }
+            
+            if (dateVal) {
+                const date = new Date(dateVal);
+                const formatted = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                html += `
+                    <div>
+                        <div class="uppercase text-[10px] tracking-widest text-[#684F48]">DATE</div>
+                        <div class="font-medium">${formatted}</div>
+                    </div>
+                `;
+            }
+            
+            if (timeVal) {
+                html += `
+                    <div>
+                        <div class="uppercase text-[10px] tracking-widest text-[#684F48]">TIME</div>
+                        <div class="font-medium">${timeVal}</div>
+                    </div>
+                `;
+            }
+            
+            if (name) {
+                html += `
+                    <div>
+                        <div class="uppercase text-[10px] tracking-widest text-[#684F48]">CLIENT</div>
+                        <div class="font-medium">${name}</div>
+                    </div>
+                `;
+            }
+            
+            html += `</div>`;
+            
+            if (!selectedService && !dateVal && !name) {
+                html = `
+                    <div class="flex flex-col items-center justify-center h-full text-center py-12 opacity-60">
+                        <i class="fa-solid fa-calendar text-6xl mb-6 text-[#684F48]"></i>
+                        <p class="font-medium">Your booking preview will appear here</p>
+                    </div>
+                `;
+            }
+            
+            summaryEl.innerHTML = html;
+            
+            // Enable buttons if ready
+            checkFormValidity();
+        }
+        
+        function checkFormValidity() {
+            const name = document.getElementById("name-input").value.trim();
+            const phone = document.getElementById("phone-input").value.trim();
+            const date = document.getElementById("date-input").value;
+            const time = document.getElementById("time-input").value;
+            const serviceSelected = !!selectedService;
+            
+            const isValid = name && phone && date && time && serviceSelected;
+            
+            const waBtn = document.getElementById("whatsapp-btn");
+            const tgBtn = document.getElementById("telegram-btn");
+            
+            waBtn.disabled = !isValid;
+            tgBtn.disabled = !isValid;
+        }
+        
+        // Build message
+        function buildBookingMessage() {
+            const name = document.getElementById("name-input").value.trim() || "[Name]";
+            const phone = document.getElementById("phone-input").value.trim() || "[Phone]";
+            const date = document.getElementById("date-input").value || "[Date]";
+            const time = document.getElementById("time-input").value || "[Time]";
+            
+            let serviceText = selectedService ? selectedService.name : "[Service]";
+            let stylistText = selectedStaff ? selectedStaff.name : "Any available";
+            
+            return `New booking request — Aether Salon
+            
+Name: ${name}
+Service: ${serviceText}
+Stylist: ${stylistText}
+Date: ${date}
+Time: ${time}
+Phone: ${phone}
+
+Thank you!`;
+        }
+        
+        function sendToWhatsApp() {
+            const message = buildBookingMessage();
+            const encoded = encodeURIComponent(message);
+            window.open(`https://wa.me/15551234567?text=${encoded}`, '_blank');
+        }
+        
+        function sendToTelegram() {
+            const message = buildBookingMessage();
+            const encoded = encodeURIComponent(message);
+            // Telegram deep link (pre-fill may vary by client)
+            window.open(`https://t.me/aethersalon?text=${encoded}`, '_blank');
+        }
+        
+        function copyBookingMessage() {
+            const message = buildBookingMessage();
+            navigator.clipboard.writeText(message).then(() => {
+                const origText = event.target.innerHTML;
+                event.target.innerHTML = `<i class="fa-solid fa-check"></i> COPIED!`;
+                setTimeout(() => {
+                    event.target.innerHTML = origText;
+                }, 2000);
+            });
+        }
+        
+        function handleSubmit(e) {
+            e.preventDefault();
+            // Buttons already handle sending
+        }
+        
+        function smoothScrollTo(sectionId) {
+            const el = document.getElementById(sectionId);
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById("mobile-menu");
+            menu.classList.toggle("hidden");
+        }
+        
+        // Event listeners
+        function setupListeners() {
+            const inputs = ["name-input", "phone-input", "date-input", "time-input"];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener("input", updateSummary);
+                    el.addEventListener("change", updateSummary);
+                }
+            });
+            
+            // Set default date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const dateInput = document.getElementById("date-input");
+            if (dateInput) {
+                dateInput.value = tomorrow.toISOString().split('T')[0];
+            }
+            
+            // Min time restriction
+            const timeInput = document.getElementById("time-input");
+            if (timeInput) {
+                timeInput.min = "09:00";
+                timeInput.max = "18:30";
+            }
+        }
+        
+        // Initialize everything
+        function initialize() {
+            renderServices();
+            renderTeam();
+            setupListeners();
+            updateSummary();
+            
+            // Keyboard support
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "/" && document.getElementById("name-input") !== document.activeElement) {
+                    e.preventDefault();
+                    document.getElementById("name-input").focus();
+                }
+            });
+            
+            console.log('%cAether Salon booking site ready. Premium & production-ready.', 'color:#684F48; font-family:monospace');
+        }
+        
+        // Boot the app
+        window.onload = initialize;
+    </script>
 </body>
 </html>
+```-white text
