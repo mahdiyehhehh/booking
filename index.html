@@ -66,11 +66,27 @@
       font-weight: 450;
       color: var(--near-black);
       user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
     }
     .service-tag.selected {
       background: var(--walnut);
       color: white;
       border-color: var(--walnut);
+    }
+    .service-tag .reset-icon {
+      display: none;
+      font-size: 0.8rem;
+      margin-left: 0.1rem;
+      opacity: 0.7;
+      cursor: pointer;
+    }
+    .service-tag.selected .reset-icon {
+      display: inline-block;
+    }
+    .service-tag .reset-icon:hover {
+      opacity: 1;
     }
     .staff-option {
       border-radius: 60px;
@@ -101,6 +117,7 @@
       appearance: auto;
       -webkit-appearance: auto;
       min-height: 3rem;
+      max-width: 100%;
     }
     .input-field:focus {
       outline: none;
@@ -181,10 +198,42 @@
     @media (max-width: 500px) {
       .hero-title { font-size: 2.2rem; }
     }
-    /* fix date/time width */
-    input[type="date"].input-field,
-    input[type="time"].input-field {
+    /* smaller date/time horizontally */
+    .date-time-wrapper {
       max-width: 100%;
+    }
+    .date-time-wrapper .input-field {
+      max-width: 100%;
+      width: 100%;
+    }
+    @media (min-width: 640px) {
+      .date-time-wrapper .input-field {
+        max-width: 90%;
+      }
+    }
+    .reset-service-btn {
+      background: none;
+      border: none;
+      color: var(--walnut);
+      font-size: 0.75rem;
+      cursor: pointer;
+      padding: 0.1rem 0.4rem;
+      border-radius: 20px;
+      transition: 0.1s;
+      opacity: 0.6;
+      margin-left: 0.2rem;
+    }
+    .reset-service-btn:hover {
+      opacity: 1;
+      background: rgba(104, 79, 72, 0.06);
+    }
+    .location-footer {
+      font-size: 0.85rem;
+      color: var(--espresso);
+      opacity: 0.7;
+      border-top: 1px solid rgba(26, 21, 18, 0.05);
+      padding-top: 1.2rem;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
@@ -205,29 +254,35 @@
     <a href="#booking-start" class="btn-primary text-base px-7 py-3 shadow-sm hero-scroll-btn" style="min-width: auto; scroll-margin-top: 2rem;">Book Now ↓</a>
   </div>
 
-  <!-- ====== SERVICES (now you can pick ONE hair + ONE nail) ====== -->
+  <!-- ====== SERVICES (with reset via ✕ on selected) ====== -->
   <div class="mt-6" id="booking-start">
     <h2 class="text-xl serif-heading heading-espresso tracking-wide">Services <span class="text-sm font-normal text-[#684F48] opacity-70 ml-2">(choose one hair + one nail)</span></h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
       <!-- Hair -->
       <div>
-        <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold mb-2">Hair</h3>
-        <div class="flex flex-wrap gap-2" id="hairServices">
-          <span class="service-tag" data-category="hair" data-service="Cut & Style">Cut & Style</span>
-          <span class="service-tag" data-category="hair" data-service="Balayage/Color">Balayage/Color</span>
-          <span class="service-tag" data-category="hair" data-service="Blowout">Blowout</span>
-          <span class="service-tag" data-category="hair" data-service="Keratin Treatment">Keratin</span>
-          <span class="service-tag" data-category="hair" data-service="Extensions">Extensions</span>
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold">Hair</h3>
+          <button id="resetHairBtn" class="reset-service-btn" title="Clear hair selection">✕ reset</button>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-2" id="hairServices">
+          <span class="service-tag" data-category="hair" data-service="Cut & Style">Cut & Style<span class="reset-icon">✕</span></span>
+          <span class="service-tag" data-category="hair" data-service="Balayage/Color">Balayage/Color<span class="reset-icon">✕</span></span>
+          <span class="service-tag" data-category="hair" data-service="Blowout">Blowout<span class="reset-icon">✕</span></span>
+          <span class="service-tag" data-category="hair" data-service="Keratin Treatment">Keratin<span class="reset-icon">✕</span></span>
+          <span class="service-tag" data-category="hair" data-service="Extensions">Extensions<span class="reset-icon">✕</span></span>
         </div>
       </div>
       <!-- Nails -->
       <div>
-        <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold mb-2">Nails</h3>
-        <div class="flex flex-wrap gap-2" id="nailServices">
-          <span class="service-tag" data-category="nails" data-service="Manicure">Manicure</span>
-          <span class="service-tag" data-category="nails" data-service="Gel Manicure">Gel Manicure</span>
-          <span class="service-tag" data-category="nails" data-service="Pedicure">Pedicure</span>
-          <span class="service-tag" data-category="nails" data-service="Nail Art">Nail Art</span>
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold">Nails</h3>
+          <button id="resetNailsBtn" class="reset-service-btn" title="Clear nail selection">✕ reset</button>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-2" id="nailServices">
+          <span class="service-tag" data-category="nails" data-service="Manicure">Manicure<span class="reset-icon">✕</span></span>
+          <span class="service-tag" data-category="nails" data-service="Gel Manicure">Gel Manicure<span class="reset-icon">✕</span></span>
+          <span class="service-tag" data-category="nails" data-service="Pedicure">Pedicure<span class="reset-icon">✕</span></span>
+          <span class="service-tag" data-category="nails" data-service="Nail Art">Nail Art<span class="reset-icon">✕</span></span>
         </div>
       </div>
     </div>
@@ -246,8 +301,8 @@
     </div>
   </div>
 
-  <!-- ====== DATE + TIME (fixed width, same as others) ====== -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+  <!-- ====== DATE + TIME (horizontally smaller) ====== -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 date-time-wrapper">
     <div>
       <label for="bookingDate" class="block text-sm font-medium text-[#594841] mb-1">Date</label>
       <input type="date" id="bookingDate" class="input-field" min="2026-07-16" value="2026-07-16" />
@@ -299,6 +354,12 @@
     </div>
   </div>
 
+  <!-- ====== LOCATION FOOTER ====== -->
+  <div class="location-footer flex flex-wrap items-center justify-between gap-2 mt-4">
+    <span class="flex items-center gap-1.5">📍 14 Rue de la Paix, 75002 Paris, France</span>
+    <span class="text-xs opacity-60">〒 75002</span>
+  </div>
+
   <!-- hidden meta -->
   <div style="display: none;" id="salonMeta" data-salooname="Silk & Tonic" data-phone="33123456789" data-telegram="silklounge"></div>
 </div>
@@ -329,6 +390,9 @@
     const validationMsg = document.getElementById('validationMessage');
     const serviceMsg = document.getElementById('serviceSelectionMsg');
 
+    const resetHairBtn = document.getElementById('resetHairBtn');
+    const resetNailsBtn = document.getElementById('resetNailsBtn');
+
     const salonName = document.getElementById('salonMeta').dataset.salooname || 'Silk & Tonic';
     const phoneIntl = document.getElementById('salonMeta').dataset.phone || '33123456789';
     const telegramUser = document.getElementById('salonMeta').dataset.telegram || 'silklounge';
@@ -338,6 +402,18 @@
     let selectedStaff = null;
 
     // ----- helpers -----
+    function clearHairSelection() {
+      hairTags.forEach(t => t.classList.remove('selected'));
+      selectedHair = null;
+      updateUI();
+    }
+
+    function clearNailSelection() {
+      nailTags.forEach(t => t.classList.remove('selected'));
+      selectedNails = null;
+      updateUI();
+    }
+
     function updateUI() {
       const hair = selectedHair || '—';
       const nails = selectedNails || '—';
@@ -366,7 +442,6 @@
       telegramBtn.disabled = !allFilled;
       copyFallback.style.display = allFilled ? 'inline-block' : 'none';
 
-      // service hint
       if (!hairOk && !nailsOk) serviceMsg.textContent = 'Please select one hair service and one nail service.';
       else if (!hairOk) serviceMsg.textContent = 'Please select a hair service.';
       else if (!nailsOk) serviceMsg.textContent = 'Please select a nail service.';
@@ -386,31 +461,49 @@
       }
     }
 
-    // ----- service selection (one hair, one nail) -----
-    function clearHairSelection() {
-      hairTags.forEach(t => t.classList.remove('selected'));
-    }
-    function clearNailSelection() {
-      nailTags.forEach(t => t.classList.remove('selected'));
+    // ----- service selection (one hair, one nail) with reset via click on ✕ -----
+    function handleServiceClick(e) {
+      const tag = e.currentTarget;
+      const category = tag.dataset.category;
+      // if the click was on the reset icon, clear that category
+      if (e.target.classList.contains('reset-icon')) {
+        if (category === 'hair') clearHairSelection();
+        else if (category === 'nails') clearNailSelection();
+        return;
+      }
+
+      if (category === 'hair') {
+        // if already selected, deselect (toggle off)
+        if (selectedHair === tag.dataset.service) {
+          clearHairSelection();
+          return;
+        }
+        hairTags.forEach(t => t.classList.remove('selected'));
+        tag.classList.add('selected');
+        selectedHair = tag.dataset.service;
+      } else if (category === 'nails') {
+        if (selectedNails === tag.dataset.service) {
+          clearNailSelection();
+          return;
+        }
+        nailTags.forEach(t => t.classList.remove('selected'));
+        tag.classList.add('selected');
+        selectedNails = tag.dataset.service;
+      }
+      updateUI();
     }
 
     hairTags.forEach(tag => {
-      tag.addEventListener('click', function() {
-        clearHairSelection();
-        this.classList.add('selected');
-        selectedHair = this.dataset.service;
-        updateUI();
-      });
+      tag.addEventListener('click', handleServiceClick);
     });
 
     nailTags.forEach(tag => {
-      tag.addEventListener('click', function() {
-        clearNailSelection();
-        this.classList.add('selected');
-        selectedNails = this.dataset.service;
-        updateUI();
-      });
+      tag.addEventListener('click', handleServiceClick);
     });
+
+    // reset buttons
+    resetHairBtn.addEventListener('click', clearHairSelection);
+    resetNailsBtn.addEventListener('click', clearNailSelection);
 
     // staff
     staffOptions.forEach(opt => {
