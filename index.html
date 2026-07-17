@@ -42,12 +42,11 @@
     border-radius:28px;
     box-shadow:0 20px 50px rgba(33,27,23,0.08), 0 2px 8px rgba(33,27,23,0.04);
     padding:clamp(1.75rem,5vw,3rem);
-    overflow:hidden; /* Prevent horizontal overflow */
+    overflow:hidden;
   }
 
   h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;margin:0;color:var(--espresso);}
 
-  /* ---------- Brand header ---------- */
   .brand{display:flex;align-items:center;gap:1rem;}
   .brand-mark{
     flex:none;
@@ -79,14 +78,12 @@
   }
   .cta-book:hover{background:var(--walnut-dark);}
 
-  /* ---------- Section rhythm ---------- */
   .section{margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--line-soft);}
   .section:first-of-type{border-top:none;}
   .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
   .section-head h2{font-size:1.15rem;}
   .section-hint{margin:.2rem 0 0;font-size:.82rem;color:var(--walnut);opacity:.65;}
 
-  /* ---------- Service groups ---------- */
   .service-group{margin-top:1.4rem;}
   .service-group:first-of-type{margin-top:1.1rem;}
   .service-group-head{display:flex;align-items:center;justify-content:space-between;}
@@ -120,34 +117,30 @@
   .chip.selected svg{opacity:1;}
   .chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 
-  /* ---------- Fields ---------- */
   .field-grid{
     display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr); /* Prevents overflow */
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
     gap:1rem;
     margin-top:1.1rem;
   }
-  .field{
-    min-width:0; /* Critical for preventing overflow in grid */
-  }
+  .field{min-width:0;}
   .field label{display:block;font-size:.82rem;font-weight:500;color:var(--espresso);margin-bottom:.4rem;}
   .field label .req{color:var(--gold);}
   .field small{display:block;font-size:.72rem;color:var(--walnut);opacity:.55;margin-top:.3rem;}
   .field input{
     width:100%;
-    max-width:100%; /* Ensure input doesn't exceed container */
+    max-width:100%;
     height:2.85rem;
     border:1px solid var(--line);
     border-radius:var(--radius-md);
     background:#fff;
     padding:0 .9rem;
     font-family:inherit;font-size:.92rem;color:var(--ink);
-    -webkit-appearance:none; /* Reset iOS styling */
+    -webkit-appearance:none;
   }
   .field input::placeholder{color:#A99C94;}
   .field input:focus{outline:none;border-color:var(--walnut);box-shadow:0 0 0 3px rgba(104,79,72,0.10);}
   
-  /* iOS Safari specific fixes for date/time inputs */
   .field input[type="date"],
   .field input[type="time"]{
     -webkit-appearance:none;
@@ -158,12 +151,10 @@
     text-align:left;
     line-height:2.85rem;
     position:relative;
-    /* Prevent iOS from showing its own picker overlay causing layout issues */
     -webkit-user-select:text;
     user-select:text;
   }
   
-  /* Force iOS to use our styling for the date/time display */
   .field input[type="date"]::-webkit-date-and-time-value,
   .field input[type="time"]::-webkit-date-and-time-value{
     text-align:left;
@@ -196,13 +187,12 @@
     width:100%;
   }
 
-  /* Hide iOS default calendar/time picker icon to prevent layout shift */
   .field input[type="date"]::-webkit-calendar-picker-indicator,
   .field input[type="time"]::-webkit-calendar-picker-indicator{
     opacity:1;
     color:var(--walnut);
     padding:0;
-    margin-left:auto; /* Push to the right */
+    margin-left:auto;
     cursor:pointer;
   }
   
@@ -210,7 +200,6 @@
     .field-grid{grid-template-columns:minmax(0,1fr);}
   }
 
-  /* ---------- Summary / receipt ---------- */
   .receipt{margin-top:1rem;border-top:1px dashed var(--line);}
   .receipt-row{
     display:flex;justify-content:space-between;gap:1rem;
@@ -222,7 +211,6 @@
   .receipt-row .value.muted{opacity:.4;font-weight:400;}
   .status-msg{margin:.9rem 0 0;font-size:.85rem;color:var(--gold);font-weight:500;min-height:1.1em;}
 
-  /* ---------- Actions ---------- */
   .actions{margin-top:1.75rem;display:flex;flex-direction:column;gap:.65rem;}
   .btn{
     display:flex;align-items:center;justify-content:center;gap:.55rem;
@@ -248,7 +236,6 @@
   .btn-text:hover{text-decoration-color:var(--walnut);}
   .validation{min-height:1.2em;font-size:.83rem;color:var(--error);margin:.3rem 0 0;text-align:center;}
 
-  /* ---------- Footer ---------- */
   .location{
     margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--line-soft);
     display:flex;flex-wrap:wrap;gap:.5rem 1rem;
@@ -275,7 +262,7 @@
   <section class="section" id="services">
     <div class="section-head">
       <h2>Services</h2>
-      <p class="section-hint">One hair service, one nail service</p>
+      <p class="section-hint">Choose at least one service</p>
     </div>
 
     <div class="service-group">
@@ -486,25 +473,28 @@
     el.phone.textContent = phoneOk ? phoneInput.value.trim() : 'Not entered';
     el.phone.classList.toggle('muted', !phoneOk);
 
+    // Changed: now requires at least one service (hair OR nails), not both
     const hairOk = !!selectedHair;
     const nailsOk = !!selectedNails;
-    const allFilled = hairOk && nailsOk && dateOk && timeOk && nameOk && phoneOk;
+    const atLeastOneService = hairOk || nailsOk;
+    const allFilled = atLeastOneService && dateOk && timeOk && nameOk && phoneOk;
 
     whatsappBtn.disabled = !allFilled;
     telegramBtn.disabled = !allFilled;
     copyBtn.style.visibility = allFilled ? 'visible' : 'hidden';
 
-    if(hairOk && nailsOk) statusMsg.textContent = '';
-    else if(!hairOk && !nailsOk) statusMsg.textContent = 'Choose a hair service and a nail service.';
-    else if(!hairOk) statusMsg.textContent = 'Choose a hair service.';
-    else statusMsg.textContent = 'Choose a nail service.';
+    // Updated status messages
+    if(atLeastOneService) {
+      statusMsg.textContent = '';
+    } else {
+      statusMsg.textContent = 'Choose at least one service — hair, nails, or both.';
+    }
 
     if(allFilled){
       validationMsg.textContent = '';
     } else {
       const missing = [];
-      if(!hairOk) missing.push('hair service');
-      if(!nailsOk) missing.push('nail service');
+      if(!hairOk && !nailsOk) missing.push('at least one service');
       if(!dateOk) missing.push('date');
       if(!timeOk) missing.push('time');
       if(!nameOk) missing.push('name');
