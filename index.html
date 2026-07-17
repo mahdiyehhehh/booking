@@ -103,7 +103,7 @@
       color: white;
       border-color: var(--espresso);
     }
-    /* ----- UNIFIED INPUT STYLES ----- */
+    /* unified input styles */
     .input-field, 
     .custom-date-input,
     .custom-time-input {
@@ -117,7 +117,7 @@
       color: var(--near-black);
       min-width: 0;
       box-sizing: border-box;
-      height: 3rem;              /* fixed height – matches all inputs */
+      height: 3rem;
       line-height: 1.4;
       display: flex;
       align-items: center;
@@ -133,7 +133,6 @@
       box-shadow: 0 0 0 3px rgba(104, 79, 72, 0.08);
     }
     .input-field::placeholder { color: #9a8b84; font-weight: 300; }
-    /* hide native calendar icon on Safari (keeps height consistent) */
     .custom-date-input::-webkit-calendar-picker-indicator,
     .custom-time-input::-webkit-calendar-picker-indicator {
       opacity: 0.5;
@@ -151,18 +150,11 @@
     .custom-time-input::-webkit-datetime-edit-fields-wrapper {
       padding: 0;
     }
-    /* reset extra spacing */
     .custom-date-input,
     .custom-time-input {
       padding: 0 1rem;
-    }
-    .custom-date-input {
-      padding-right: 0.5rem; /* give room for the picker icon */
-    }
-    .custom-time-input {
       padding-right: 0.5rem;
     }
-    /* remove default spin buttons / clear */
     .custom-date-input::-webkit-inner-spin-button,
     .custom-time-input::-webkit-inner-spin-button {
       display: none;
@@ -171,7 +163,6 @@
     .custom-time-input::-webkit-clear-button {
       display: none;
     }
-    /* fallback for Firefox */
     .custom-date-input,
     .custom-time-input {
       -moz-appearance: textfield;
@@ -279,16 +270,11 @@
 <body>
 <div class="booking-card">
 
-  <!-- ====== HERO ====== -->
+  <!-- ====== HERO (cleaner – only name + tagline + CTA) ====== -->
   <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 mb-8" id="hero">
     <div>
       <h1 class="hero-title text-5xl md:text-6xl font-medium serif-heading heading-espresso tracking-wide leading-[1.1]">Silk & Tonic</h1>
       <p class="text-lg text-[#4d3e38] mt-1 max-w-xl">quiet luxury · hair & nails</p>
-      <div class="flex flex-wrap items-center gap-x-5 gap-y-1 mt-3 text-sm text-[#3f312b]">
-        <span class="flex items-center gap-1">🕊️ Mon–Sat 9:00 – 19:00</span>
-        <span class="hidden sm:inline-block w-px h-4 bg-[#ccd6d6]"></span>
-        <span>14 Rue de la Paix, 75002 Paris</span>
-      </div>
     </div>
     <a href="#booking-start" class="btn-primary text-base px-7 py-3 shadow-sm hero-scroll-btn" style="min-width: auto; scroll-margin-top: 2rem;">Book Now ↓</a>
   </div>
@@ -340,7 +326,7 @@
     </div>
   </div>
 
-  <!-- ====== DATE + TIME (refactored – pixel‑perfect identical height) ====== -->
+  <!-- ====== DATE + TIME ====== -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
     <div>
       <label for="bookingDate" class="block text-sm font-medium text-[#594841] mb-1">Date</label>
@@ -393,10 +379,11 @@
     </div>
   </div>
 
-  <!-- ====== LOCATION ====== -->
-  <div class="location-footer flex flex-wrap items-center justify-between gap-2 mt-4">
-    <span class="flex items-center gap-1.5">📍 14 Rue de la Paix, 75002 Paris, France</span>
-    <span class="text-xs opacity-60">〒 75002</span>
+  <!-- ====== LOCATION + HOURS (moved to bottom, clean & minimal) ====== -->
+  <div class="location-footer flex flex-wrap items-center justify-between gap-3 mt-6">
+    <span class="flex items-center gap-2">📍 14 Rue de la Paix, 75002 Paris</span>
+    <span class="flex items-center gap-2">🕊️ Mon–Sat 9:00 – 19:00</span>
+    <span class="text-xs opacity-50">〒 75002</span>
   </div>
 
   <!-- hidden meta -->
