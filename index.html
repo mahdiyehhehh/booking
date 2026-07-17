@@ -1,613 +1,571 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
-  <title>Silk & Tonic · Hair & Nails</title>
-  <!-- Google Fonts + Tailwind CDN -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* brand tokens */
-    :root {
-      --bg-pale: #D6E9ED;
-      --slate-panel: #CCD6D6;
-      --walnut: #684F48;
-      --espresso: #594841;
-      --offwhite: #F5F3F0;
-      --near-black: #1A1512;
-      --shadow-soft: 0 12px 28px rgba(26, 21, 18, 0.06), 0 4px 12px rgba(26, 21, 18, 0.02);
-      --border-hairline: 1px solid rgba(26, 21, 18, 0.06);
-    }
-    body {
-      background-color: var(--bg-pale);
-      color: var(--near-black);
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      font-weight: 400;
-      line-height: 1.6;
-      padding: 1.5rem 1rem 3rem;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .booking-card {
-      max-width: 1200px;
-      width: 100%;
-      background: var(--offwhite);
-      border-radius: 28px;
-      box-shadow: var(--shadow-soft);
-      padding: 2rem 2rem 2.5rem;
-      border: var(--border-hairline);
-      transition: all 0.2s;
-    }
-    h1, h2, h3, .serif-heading {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-    }
-    .heading-espresso { color: var(--espresso); }
-    .text-walnut { color: var(--walnut); }
-    .bg-walnut { background-color: var(--walnut); }
-    .bg-walnut:hover { background-color: #5a433c; }
-    .border-slate { border-color: var(--slate-panel); }
-    .bg-pale { background-color: var(--bg-pale); }
-    .bg-offwhite { background-color: var(--offwhite); }
-    .service-tag {
-      background: var(--offwhite);
-      border: 1px solid rgba(104, 79, 72, 0.15);
-      border-radius: 40px;
-      padding: 0.3rem 1rem;
-      transition: all 0.15s;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 450;
-      color: var(--near-black);
-      user-select: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .service-tag.selected {
-      background: var(--walnut);
-      color: white;
-      border-color: var(--walnut);
-    }
-    .service-tag .reset-icon {
-      display: none;
-      font-size: 0.8rem;
-      margin-left: 0.1rem;
-      opacity: 0.7;
-      cursor: pointer;
-    }
-    .service-tag.selected .reset-icon {
-      display: inline-block;
-    }
-    .service-tag .reset-icon:hover {
-      opacity: 1;
-    }
-    .staff-option {
-      border-radius: 60px;
-      padding: 0.3rem 1.2rem;
-      border: 1px solid rgba(26, 21, 18, 0.1);
-      background: var(--offwhite);
-      transition: 0.1s;
-      cursor: pointer;
-      font-size: 0.85rem;
-      user-select: none;
-    }
-    .staff-option.selected {
-      background: var(--espresso);
-      color: white;
-      border-color: var(--espresso);
-    }
-    /* unified input styles */
-    .input-field, 
-    .custom-date-input,
-    .custom-time-input {
-      background: white;
-      border: 1px solid rgba(26, 21, 18, 0.08);
-      border-radius: 16px;
-      padding: 0.7rem 1rem;
-      font-size: 0.95rem;
-      width: 100%;
-      transition: 0.15s;
-      color: var(--near-black);
-      min-width: 0;
-      box-sizing: border-box;
-      height: 3rem;
-      line-height: 1.4;
-      display: flex;
-      align-items: center;
-      font-family: inherit;
-      appearance: none;
-      -webkit-appearance: none;
-    }
-    .input-field:focus,
-    .custom-date-input:focus,
-    .custom-time-input:focus {
-      outline: none;
-      border-color: var(--walnut);
-      box-shadow: 0 0 0 3px rgba(104, 79, 72, 0.08);
-    }
-    .input-field::placeholder { color: #9a8b84; font-weight: 300; }
-    .custom-date-input::-webkit-calendar-picker-indicator,
-    .custom-time-input::-webkit-calendar-picker-indicator {
-      opacity: 0.5;
-      padding: 0;
-      margin: 0;
-      height: 1.2rem;
-      width: 1.2rem;
-    }
-    .custom-date-input::-webkit-datetime-edit,
-    .custom-time-input::-webkit-datetime-edit {
-      padding: 0;
-      line-height: 1.4;
-    }
-    .custom-date-input::-webkit-datetime-edit-fields-wrapper,
-    .custom-time-input::-webkit-datetime-edit-fields-wrapper {
-      padding: 0;
-    }
-    .custom-date-input,
-    .custom-time-input {
-      padding: 0 1rem;
-      padding-right: 0.5rem;
-    }
-    .custom-date-input::-webkit-inner-spin-button,
-    .custom-time-input::-webkit-inner-spin-button {
-      display: none;
-    }
-    .custom-date-input::-webkit-clear-button,
-    .custom-time-input::-webkit-clear-button {
-      display: none;
-    }
-    .custom-date-input,
-    .custom-time-input {
-      -moz-appearance: textfield;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Silk & Tonic · Book an appointment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#D6E9ED;
+    --paper:#FBF9F6;
+    --walnut:#684F48;
+    --walnut-dark:#57403A;
+    --espresso:#594841;
+    --ink:#211B17;
+    --line:rgba(33,27,23,0.10);
+    --line-soft:rgba(33,27,23,0.06);
+    --gold:#A9814F;
+    --error:#A6453D;
+    --radius-lg:22px;
+    --radius-md:14px;
+    --radius-full:999px;
+  }
 
-    .btn-primary {
-      background: var(--walnut);
-      color: white;
-      border: none;
-      border-radius: 60px;
-      padding: 0.75rem 1.8rem;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: 0.15s;
-      box-shadow: 0 2px 6px rgba(104, 79, 72, 0.1);
-      letter-spacing: 0.01em;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      cursor: pointer;
-      min-width: 160px;
-    }
-    .btn-primary:hover:not(:disabled) {
-      background: #5a433c;
-      transform: scale(0.98);
-    }
-    .btn-primary:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    .btn-outline-walnut {
-      background: transparent;
-      border: 1px solid var(--walnut);
-      color: var(--walnut);
-      border-radius: 60px;
-      padding: 0.7rem 1.8rem;
-      font-weight: 500;
-      transition: 0.15s;
-      cursor: pointer;
-      font-size: 0.9rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      min-width: 160px;
-    }
-    .btn-outline-walnut:hover:not(:disabled) {
-      background: var(--walnut);
-      color: white;
-    }
-    .btn-outline-walnut:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
-    .summary-panel {
-      background: var(--offwhite);
-      border-radius: 24px;
-      padding: 1.5rem 1.8rem;
-      border: 1px solid rgba(26, 21, 18, 0.04);
-      box-shadow: inset 0 1px 4px rgba(255,255,255,0.8), 0 4px 10px rgba(26,21,18,0.02);
-    }
-    .hero-scroll-btn {
-      scroll-margin-top: 2rem;
-    }
-    @media (max-width: 700px) {
-      .booking-card { padding: 1.25rem; }
-      .btn-primary, .btn-outline-walnut { min-width: 120px; width: 100%; }
-    }
-    *:focus-visible {
-      outline: 2px solid var(--walnut);
-      outline-offset: 3px;
-      border-radius: 6px;
-    }
-    @media (max-width: 500px) {
-      .hero-title { font-size: 2.2rem; }
-    }
-    .reset-service-btn {
-      background: none;
-      border: none;
-      color: var(--walnut);
-      font-size: 0.75rem;
-      cursor: pointer;
-      padding: 0.1rem 0.4rem;
-      border-radius: 20px;
-      transition: 0.1s;
-      opacity: 0.6;
-      margin-left: 0.2rem;
-    }
-    .reset-service-btn:hover {
-      opacity: 1;
-      background: rgba(104, 79, 72, 0.06);
-    }
-    .location-footer {
-      font-size: 0.85rem;
-      color: var(--espresso);
-      opacity: 0.7;
-      border-top: 1px solid rgba(26, 21, 18, 0.05);
-      padding-top: 1.2rem;
-      margin-top: 0.5rem;
-    }
-  </style>
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    line-height:1.55;
+    padding:clamp(1.25rem,4vw,3rem) 1rem;
+  }
+
+  .page{
+    max-width:640px;
+    margin:0 auto;
+    background:var(--paper);
+    border-radius:28px;
+    box-shadow:0 20px 50px rgba(33,27,23,0.08), 0 2px 8px rgba(33,27,23,0.04);
+    padding:clamp(1.75rem,5vw,3rem);
+    overflow:hidden; /* Prevent horizontal overflow */
+  }
+
+  h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;margin:0;color:var(--espresso);}
+
+  /* ---------- Brand header ---------- */
+  .brand{display:flex;align-items:center;gap:1rem;}
+  .brand-mark{
+    flex:none;
+    width:52px;height:52px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--gold);
+    letter-spacing:0.02em;
+  }
+  .brand h1{font-size:1.9rem;letter-spacing:-0.01em;}
+  .brand .tagline{margin:.15rem 0 0;font-size:.9rem;color:var(--walnut);opacity:.8;}
+
+  .cta-book{
+    display:block;
+    text-align:center;
+    margin:1.75rem 0 0;
+    padding:0.85rem 1.5rem;
+    border-radius:var(--radius-full);
+    background:var(--walnut);
+    color:#fff;
+    text-decoration:none;
+    font-weight:500;
+    font-size:.95rem;
+    transition:background .15s;
+  }
+  .cta-book:hover{background:var(--walnut-dark);}
+
+  /* ---------- Section rhythm ---------- */
+  .section{margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--line-soft);}
+  .section:first-of-type{border-top:none;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+  .section-head h2{font-size:1.15rem;}
+  .section-hint{margin:.2rem 0 0;font-size:.82rem;color:var(--walnut);opacity:.65;}
+
+  /* ---------- Service groups ---------- */
+  .service-group{margin-top:1.4rem;}
+  .service-group:first-of-type{margin-top:1.1rem;}
+  .service-group-head{display:flex;align-items:center;justify-content:space-between;}
+  .service-group-head h3{
+    font-family:'Inter',sans-serif;font-weight:600;font-size:.72rem;
+    text-transform:uppercase;letter-spacing:.09em;color:var(--walnut);opacity:.7;
+  }
+  .clear-link{
+    background:none;border:none;cursor:pointer;
+    font-size:.78rem;color:var(--gold);font-weight:500;
+    padding:0;text-decoration:underline;text-decoration-color:transparent;
+    transition:text-decoration-color .15s;
+  }
+  .clear-link:hover{text-decoration-color:var(--gold);}
+  .clear-link[hidden]{display:none;}
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.6rem;}
+  .chip{
+    appearance:none;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-full);
+    padding:.5rem 1rem;
+    font-family:inherit;font-size:.87rem;color:var(--ink);
+    cursor:pointer;
+    display:inline-flex;align-items:center;gap:.4rem;
+    transition:background .15s,border-color .15s,color .15s;
+  }
+  .chip svg{width:13px;height:13px;flex:none;opacity:0;transition:opacity .15s;}
+  .chip.selected{background:var(--walnut);border-color:var(--walnut);color:#fff;}
+  .chip.selected svg{opacity:1;}
+  .chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+
+  /* ---------- Fields ---------- */
+  .field-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr); /* Prevents overflow */
+    gap:1rem;
+    margin-top:1.1rem;
+  }
+  .field{
+    min-width:0; /* Critical for preventing overflow in grid */
+  }
+  .field label{display:block;font-size:.82rem;font-weight:500;color:var(--espresso);margin-bottom:.4rem;}
+  .field label .req{color:var(--gold);}
+  .field small{display:block;font-size:.72rem;color:var(--walnut);opacity:.55;margin-top:.3rem;}
+  .field input{
+    width:100%;
+    max-width:100%; /* Ensure input doesn't exceed container */
+    height:2.85rem;
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    background:#fff;
+    padding:0 .9rem;
+    font-family:inherit;font-size:.92rem;color:var(--ink);
+    -webkit-appearance:none; /* Reset iOS styling */
+  }
+  .field input::placeholder{color:#A99C94;}
+  .field input:focus{outline:none;border-color:var(--walnut);box-shadow:0 0 0 3px rgba(104,79,72,0.10);}
+  
+  /* iOS Safari specific fixes for date/time inputs */
+  .field input[type="date"],
+  .field input[type="time"]{
+    -webkit-appearance:none;
+    appearance:none;
+    min-height:2.85rem;
+    display:flex;
+    align-items:center;
+    text-align:left;
+    line-height:2.85rem;
+    position:relative;
+    /* Prevent iOS from showing its own picker overlay causing layout issues */
+    -webkit-user-select:text;
+    user-select:text;
+  }
+  
+  /* Force iOS to use our styling for the date/time display */
+  .field input[type="date"]::-webkit-date-and-time-value,
+  .field input[type="time"]::-webkit-date-and-time-value{
+    text-align:left;
+    margin:0;
+    padding:0;
+  }
+  
+  .field input[type="date"]::-webkit-datetime-edit,
+  .field input[type="time"]::-webkit-datetime-edit{
+    padding:0;
+    text-align:left;
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    font-size:.92rem;
+    color:var(--ink);
+    line-height:2.85rem;
+    display:flex;
+    align-items:center;
+    width:100%;
+  }
+  
+  .field input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+  .field input[type="time"]::-webkit-datetime-edit-fields-wrapper{
+    padding:0;
+    text-align:left;
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    font-size:.92rem;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    width:100%;
+  }
+
+  /* Hide iOS default calendar/time picker icon to prevent layout shift */
+  .field input[type="date"]::-webkit-calendar-picker-indicator,
+  .field input[type="time"]::-webkit-calendar-picker-indicator{
+    opacity:1;
+    color:var(--walnut);
+    padding:0;
+    margin-left:auto; /* Push to the right */
+    cursor:pointer;
+  }
+  
+  @media(max-width:480px){
+    .field-grid{grid-template-columns:minmax(0,1fr);}
+  }
+
+  /* ---------- Summary / receipt ---------- */
+  .receipt{margin-top:1rem;border-top:1px dashed var(--line);}
+  .receipt-row{
+    display:flex;justify-content:space-between;gap:1rem;
+    padding:.65rem 0;border-bottom:1px dashed var(--line);
+    font-size:.92rem;
+  }
+  .receipt-row .label{color:var(--walnut);opacity:.7;}
+  .receipt-row .value{font-weight:500;text-align:right;}
+  .receipt-row .value.muted{opacity:.4;font-weight:400;}
+  .status-msg{margin:.9rem 0 0;font-size:.85rem;color:var(--gold);font-weight:500;min-height:1.1em;}
+
+  /* ---------- Actions ---------- */
+  .actions{margin-top:1.75rem;display:flex;flex-direction:column;gap:.65rem;}
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:.55rem;
+    height:3.1rem;border-radius:var(--radius-full);
+    font-family:inherit;font-weight:500;font-size:.95rem;
+    border:1px solid transparent;cursor:pointer;
+    transition:transform .1s,background .15s,opacity .15s;
+  }
+  .btn svg{width:18px;height:18px;flex:none;}
+  .btn:active:not(:disabled){transform:scale(.98);}
+  .btn-primary{background:var(--walnut);color:#fff;}
+  .btn-primary:hover:not(:disabled){background:var(--walnut-dark);}
+  .btn-secondary{background:transparent;border-color:var(--walnut);color:var(--walnut);}
+  .btn-secondary:hover:not(:disabled){background:var(--walnut);color:#fff;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-text{
+    background:none;border:none;cursor:pointer;
+    color:var(--walnut);font-family:inherit;font-size:.85rem;
+    opacity:.7;text-decoration:underline;text-decoration-color:transparent;
+    padding:.3rem 0;transition:text-decoration-color .15s;
+    align-self:center;
+  }
+  .btn-text:hover{text-decoration-color:var(--walnut);}
+  .validation{min-height:1.2em;font-size:.83rem;color:var(--error);margin:.3rem 0 0;text-align:center;}
+
+  /* ---------- Footer ---------- */
+  .location{
+    margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--line-soft);
+    display:flex;flex-wrap:wrap;gap:.5rem 1rem;
+    font-size:.83rem;color:var(--walnut);opacity:.7;
+  }
+  .location .dot{opacity:.5;}
+
+  *:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:4px;}
+</style>
 </head>
 <body>
-<div class="booking-card">
+<div class="page">
 
-  <!-- ====== HERO (cleaner – only name + tagline + CTA) ====== -->
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 mb-8" id="hero">
+  <div class="brand">
+    <div class="brand-mark">S&amp;T</div>
     <div>
-      <h1 class="hero-title text-5xl md:text-6xl font-medium serif-heading heading-espresso tracking-wide leading-[1.1]">Silk & Tonic</h1>
-      <p class="text-lg text-[#4d3e38] mt-1 max-w-xl">quiet luxury · hair & nails</p>
+      <h1>Silk &amp; Tonic</h1>
+      <p class="tagline">Quiet luxury hair &amp; nail studio, Paris</p>
     </div>
-    <a href="#booking-start" class="btn-primary text-base px-7 py-3 shadow-sm hero-scroll-btn" style="min-width: auto; scroll-margin-top: 2rem;">Book Now ↓</a>
   </div>
 
-  <!-- ====== SERVICES ====== -->
-  <div class="mt-6" id="booking-start">
-    <h2 class="text-xl serif-heading heading-espresso tracking-wide">Services <span class="text-sm font-normal text-[#684F48] opacity-70 ml-2">(choose one hair + one nail)</span></h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-3">
-      <!-- Hair -->
-      <div>
-        <div class="flex items-center justify-between">
-          <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold">Hair</h3>
-          <button id="resetHairBtn" class="reset-service-btn" title="Clear hair selection">✕ reset</button>
-        </div>
-        <div class="flex flex-wrap gap-2 mt-2" id="hairServices">
-          <span class="service-tag" data-category="hair" data-service="Cut & Style">Cut & Style<span class="reset-icon">✕</span></span>
-          <span class="service-tag" data-category="hair" data-service="Balayage/Color">Balayage/Color<span class="reset-icon">✕</span></span>
-          <span class="service-tag" data-category="hair" data-service="Blowout">Blowout<span class="reset-icon">✕</span></span>
-          <span class="service-tag" data-category="hair" data-service="Keratin Treatment">Keratin<span class="reset-icon">✕</span></span>
-          <span class="service-tag" data-category="hair" data-service="Extensions">Extensions<span class="reset-icon">✕</span></span>
-        </div>
+  <a href="#services" class="cta-book">Book an appointment ↓</a>
+
+  <section class="section" id="services">
+    <div class="section-head">
+      <h2>Services</h2>
+      <p class="section-hint">One hair service, one nail service</p>
+    </div>
+
+    <div class="service-group">
+      <div class="service-group-head">
+        <h3>Hair</h3>
+        <button class="clear-link" data-clear="hair" hidden>Clear</button>
       </div>
-      <!-- Nails -->
-      <div>
-        <div class="flex items-center justify-between">
-          <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold">Nails</h3>
-          <button id="resetNailsBtn" class="reset-service-btn" title="Clear nail selection">✕ reset</button>
-        </div>
-        <div class="flex flex-wrap gap-2 mt-2" id="nailServices">
-          <span class="service-tag" data-category="nails" data-service="Manicure">Manicure<span class="reset-icon">✕</span></span>
-          <span class="service-tag" data-category="nails" data-service="Gel Manicure">Gel Manicure<span class="reset-icon">✕</span></span>
-          <span class="service-tag" data-category="nails" data-service="Pedicure">Pedicure<span class="reset-icon">✕</span></span>
-          <span class="service-tag" data-category="nails" data-service="Nail Art">Nail Art<span class="reset-icon">✕</span></span>
-        </div>
-      </div>
-    </div>
-    <div id="serviceSelectionMsg" class="text-sm text-[#684F48] mt-2 min-h-[1.4rem]"></div>
-  </div>
-
-  <!-- ====== STAFF ====== -->
-  <div class="mt-6">
-    <h3 class="text-sm uppercase tracking-widest text-[#684F48] opacity-70 font-semibold">Stylist / technician <span class="font-normal normal-case text-[#594841] opacity-60">(optional)</span></h3>
-    <div class="flex flex-wrap gap-2 mt-2" id="staffList">
-      <span class="staff-option" data-staff="Aurélie">Aurélie</span>
-      <span class="staff-option" data-staff="Marc">Marc</span>
-      <span class="staff-option" data-staff="Camille">Camille</span>
-      <span class="staff-option" data-staff="Noémie">Noémie</span>
-      <span class="staff-option" data-staff="— any —">— any —</span>
-    </div>
-  </div>
-
-  <!-- ====== DATE + TIME ====== -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-    <div>
-      <label for="bookingDate" class="block text-sm font-medium text-[#594841] mb-1">Date</label>
-      <input type="date" id="bookingDate" class="custom-date-input" min="2026-07-16" value="2026-07-16" />
-    </div>
-    <div>
-      <label for="bookingTime" class="block text-sm font-medium text-[#594841] mb-1">Time</label>
-      <input type="time" id="bookingTime" class="custom-time-input" step="900" min="09:00" max="19:00" value="11:30" />
-      <p class="text-[0.7rem] text-[#684F48] opacity-60 mt-0.5">business hours 9:00 – 19:00</p>
-    </div>
-  </div>
-
-  <!-- ====== CLIENT INFO ====== -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-    <div>
-      <label for="clientName" class="block text-sm font-medium text-[#594841] mb-1">Full name <span class="text-[#684F48]">*</span></label>
-      <input type="text" id="clientName" class="input-field" placeholder="e.g. Elena V." />
-    </div>
-    <div>
-      <label for="clientPhone" class="block text-sm font-medium text-[#594841] mb-1">Phone <span class="text-[#684F48]">*</span></label>
-      <input type="tel" id="clientPhone" class="input-field" placeholder="+33 6 12 34 56 78" />
-    </div>
-  </div>
-
-  <!-- ====== SUMMARY + ACTIONS ====== -->
-  <div class="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
-    <div class="lg:col-span-3 summary-panel">
-      <h4 class="text-sm uppercase tracking-wider text-[#594841] font-semibold opacity-70 flex items-center gap-2">
-        <span>⏤</span> booking summary
-      </h4>
-      <div id="summaryContent" class="mt-2 text-[#1A1512] space-y-0.5 text-sm leading-relaxed">
-        <p><span class="font-medium">Hair:</span> <span id="summaryHair" class="text-[#684F48]">—</span></p>
-        <p><span class="font-medium">Nails:</span> <span id="summaryNails" class="text-[#684F48]">—</span></p>
-        <p><span class="font-medium">Stylist:</span> <span id="summaryStaff" class="text-[#684F48]">—</span></p>
-        <p><span class="font-medium">Date & time:</span> <span id="summaryDateTime" class="text-[#684F48]">—</span></p>
-        <p><span class="font-medium">Client:</span> <span id="summaryClient" class="text-[#684F48]">—</span></p>
-        <p><span class="font-medium">Phone:</span> <span id="summaryPhone" class="text-[#684F48]">—</span></p>
+      <div class="chip-row" id="hairServices" data-category="hair">
+        <button class="chip" data-service="Cut & Style">Cut &amp; Style <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="chip" data-service="Balayage/Color">Balayage / Color <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="chip" data-service="Blowout">Blowout <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="chip" data-service="Keratin Treatment">Keratin <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="chip" data-service="Extensions">Extensions <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
 
-    <div class="lg:col-span-2 flex flex-col gap-3">
-      <button id="whatsappBtn" class="btn-primary w-full" disabled>
-        <span>📱</span> Send via WhatsApp
-      </button>
-      <button id="telegramBtn" class="btn-outline-walnut w-full" disabled>
-        <span>✈️</span> Send via Telegram
-      </button>
-      <button id="copyFallbackBtn" class="text-sm text-[#684F48] underline-offset-2 hover:underline opacity-70 transition" style="background: none; border: none; cursor: pointer; padding: 0.2rem;">📋 Copy message (fallback)</button>
-      <div id="validationMessage" class="text-sm text-[#b13e3e] min-h-[1.4rem] mt-1"></div>
+    <div class="service-group">
+      <div class="service-group-head">
+        <h3>Nails</h3>
+        <button class="clear-link" data-clear="nails" hidden>Clear</button>
+      </div>
+      <div class="chip-row" id="nailServices" data-category="nails">
+        <button class="chip" data-service="Manicure">Manicure <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="chip" data-service="Gel Manicure">Gel Manicure <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="chip" data-service="Pedicure">Pedicure <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="chip" data-service="Nail Art">Nail Art <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
     </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Stylist</h2>
+      <p class="section-hint">Optional — leave blank for no preference</p>
+    </div>
+    <div class="chip-row" id="staffList" data-category="staff">
+      <button class="chip" data-staff="Aurélie">Aurélie <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="chip" data-staff="Marc">Marc <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="chip" data-staff="Camille">Camille <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="chip" data-staff="Noémie">Noémie <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="chip" data-staff="— any —">No preference <svg viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Your visit</h2>
+    <div class="field-grid">
+      <div class="field">
+        <label for="bookingDate">Date</label>
+        <input type="date" id="bookingDate" />
+      </div>
+      <div class="field">
+        <label for="bookingTime">Time</label>
+        <input type="time" id="bookingTime" step="900" min="09:00" max="19:00" />
+        <small>Open 9:00 – 19:00</small>
+      </div>
+      <div class="field">
+        <label for="clientName">Full name <span class="req">*</span></label>
+        <input type="text" id="clientName" placeholder="e.g. Elena V." />
+      </div>
+      <div class="field">
+        <label for="clientPhone">Phone <span class="req">*</span></label>
+        <input type="tel" id="clientPhone" placeholder="+33 6 12 34 56 78" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section summary-section">
+    <h2>Summary</h2>
+    <div class="receipt" id="summaryContent">
+      <div class="receipt-row"><span class="label">Hair</span><span class="value muted" id="summaryHair">Not selected</span></div>
+      <div class="receipt-row"><span class="label">Nails</span><span class="value muted" id="summaryNails">Not selected</span></div>
+      <div class="receipt-row"><span class="label">Stylist</span><span class="value muted" id="summaryStaff">No preference</span></div>
+      <div class="receipt-row"><span class="label">Date &amp; time</span><span class="value muted" id="summaryDateTime">Not set</span></div>
+      <div class="receipt-row"><span class="label">Client</span><span class="value muted" id="summaryClient">Not entered</span></div>
+      <div class="receipt-row"><span class="label">Phone</span><span class="value muted" id="summaryPhone">Not entered</span></div>
+    </div>
+    <p class="status-msg" id="statusMsg"></p>
+  </section>
+
+  <div class="actions">
+    <button id="whatsappBtn" class="btn btn-primary" disabled>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.4 2 11.8c0 1.9.5 3.6 1.5 5.1L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.4 10-9.8C22 6.4 17.5 2 12 2zm0 17.8c-1.5 0-3-.4-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3C4.3 14.7 3.8 13.3 3.8 11.8 3.8 7.3 7.4 3.8 12 3.8s8.2 3.5 8.2 8c0 4.4-3.7 8-8.2 8zm4.5-6c-.3-.1-1.6-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.6.9-.8 1-.1.2-.3.2-.5.1-1.5-.6-2.5-1.4-3.4-2.9-.1-.2-.1-.4.1-.6l.5-.6c.1-.2.1-.4 0-.6l-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.7.8-1.1 1.9-.6 3.1.6 1.9 2.5 4.5 5.6 5.8 1.1.4 2 .3 2.8-.1.6-.3 1.3-1.1 1.5-1.7.1-.3.1-.6 0-.7-.1-.1-.3-.1-.5-.2z"/></svg>
+      Send via WhatsApp
+    </button>
+    <button id="telegramBtn" class="btn btn-secondary" disabled>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.5L2.6 12c-.8.3-.8 1.5 0 1.8l4.9 1.6 1.9 6c.2.7 1.1.9 1.6.3l2.7-2.9 4.9 3.6c.7.5 1.6.1 1.8-.7L23.9 5.6c.2-.9-.7-1.6-1.5-1.1zM9 15l-1.4-4.6L18 6.4 9.9 13.1 9 15z"/></svg>
+      Send via Telegram
+    </button>
+    <button id="copyBtn" class="btn-text">Copy message instead</button>
+    <p class="validation" id="validationMsg"></p>
   </div>
 
-  <!-- ====== LOCATION + HOURS (moved to bottom, clean & minimal) ====== -->
-  <div class="location-footer flex flex-wrap items-center justify-between gap-3 mt-6">
-    <span class="flex items-center gap-2">📍 14 Rue de la Paix, 75002 Paris</span>
-    <span class="flex items-center gap-2">🕊️ Mon–Sat 9:00 – 19:00</span>
-    <span class="text-xs opacity-50">〒 75002</span>
+  <div class="location">
+    <span>14 Rue de la Paix, 75002 Paris</span>
+    <span class="dot">·</span>
+    <span>Mon–Sat, 9:00–19:00</span>
   </div>
 
-  <!-- hidden meta -->
-  <div style="display: none;" id="salonMeta" data-salooname="Silk & Tonic" data-phone="33123456789" data-telegram="silklounge"></div>
 </div>
 
 <script>
-  (function() {
-    "use strict";
+(function(){
+  "use strict";
 
-    // DOM refs
-    const hairTags = document.querySelectorAll('#hairServices .service-tag');
-    const nailTags = document.querySelectorAll('#nailServices .service-tag');
-    const staffOptions = document.querySelectorAll('.staff-option');
-    const dateInput = document.getElementById('bookingDate');
-    const timeInput = document.getElementById('bookingTime');
-    const nameInput = document.getElementById('clientName');
-    const phoneInput = document.getElementById('clientPhone');
+  const SALON_NAME = "Silk & Tonic";
+  const PHONE_INTL = "33123456789";
+  const TELEGRAM_USER = "silklounge";
 
-    const summaryHair = document.getElementById('summaryHair');
-    const summaryNails = document.getElementById('summaryNails');
-    const summaryStaff = document.getElementById('summaryStaff');
-    const summaryDateTime = document.getElementById('summaryDateTime');
-    const summaryClient = document.getElementById('summaryClient');
-    const summaryPhone = document.getElementById('summaryPhone');
+  const hairRow = document.getElementById('hairServices');
+  const nailRow = document.getElementById('nailServices');
+  const staffRow = document.getElementById('staffList');
+  const dateInput = document.getElementById('bookingDate');
+  const timeInput = document.getElementById('bookingTime');
+  const nameInput = document.getElementById('clientName');
+  const phoneInput = document.getElementById('clientPhone');
 
-    const whatsappBtn = document.getElementById('whatsappBtn');
-    const telegramBtn = document.getElementById('telegramBtn');
-    const copyFallback = document.getElementById('copyFallbackBtn');
-    const validationMsg = document.getElementById('validationMessage');
-    const serviceMsg = document.getElementById('serviceSelectionMsg');
+  const el = {
+    hair: document.getElementById('summaryHair'),
+    nails: document.getElementById('summaryNails'),
+    staff: document.getElementById('summaryStaff'),
+    dateTime: document.getElementById('summaryDateTime'),
+    client: document.getElementById('summaryClient'),
+    phone: document.getElementById('summaryPhone'),
+  };
 
-    const resetHairBtn = document.getElementById('resetHairBtn');
-    const resetNailsBtn = document.getElementById('resetNailsBtn');
+  const whatsappBtn = document.getElementById('whatsappBtn');
+  const telegramBtn = document.getElementById('telegramBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const validationMsg = document.getElementById('validationMsg');
+  const statusMsg = document.getElementById('statusMsg');
 
-    const salonName = document.getElementById('salonMeta').dataset.salooname || 'Silk & Tonic';
-    const phoneIntl = document.getElementById('salonMeta').dataset.phone || '33123456789';
-    const telegramUser = document.getElementById('salonMeta').dataset.telegram || 'silklounge';
+  let selectedHair = null;
+  let selectedNails = null;
+  let selectedStaff = null;
 
-    let selectedHair = null;
-    let selectedNails = null;
-    let selectedStaff = null;
+  function toggleClearLink(category, show){
+    const link = document.querySelector(`.clear-link[data-clear="${category}"]`);
+    if(link) link.hidden = !show;
+  }
 
-    // ----- helpers -----
-    function clearHairSelection() {
-      hairTags.forEach(t => t.classList.remove('selected'));
-      selectedHair = null;
-      updateUI();
+  function handleChipClick(row, key, e){
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    const value = chip.dataset.service || chip.dataset.staff;
+
+    if(key === 'hair'){
+      selectedHair = (selectedHair === value) ? null : value;
+      row.querySelectorAll('.chip').forEach(c => c.classList.toggle('selected', c === chip && !!selectedHair));
+      toggleClearLink('hair', !!selectedHair);
+    } else if(key === 'nails'){
+      selectedNails = (selectedNails === value) ? null : value;
+      row.querySelectorAll('.chip').forEach(c => c.classList.toggle('selected', c === chip && !!selectedNails));
+      toggleClearLink('nails', !!selectedNails);
+    } else if(key === 'staff'){
+      selectedStaff = (selectedStaff === value) ? null : value;
+      row.querySelectorAll('.chip').forEach(c => c.classList.toggle('selected', c === chip && !!selectedStaff));
     }
-
-    function clearNailSelection() {
-      nailTags.forEach(t => t.classList.remove('selected'));
-      selectedNails = null;
-      updateUI();
-    }
-
-    function updateUI() {
-      const hair = selectedHair || '—';
-      const nails = selectedNails || '—';
-      const staff = selectedStaff || '—';
-      const date = dateInput.value || '—';
-      const time = timeInput.value || '—';
-      const name = nameInput.value.trim() || '—';
-      const phone = phoneInput.value.trim() || '—';
-
-      summaryHair.textContent = hair;
-      summaryNails.textContent = nails;
-      summaryStaff.textContent = staff;
-      summaryDateTime.textContent = (date !== '—' && time !== '—') ? `${date} at ${time}` : '—';
-      summaryClient.textContent = name;
-      summaryPhone.textContent = phone;
-
-      const nameOk = nameInput.value.trim().length > 0;
-      const phoneOk = phoneInput.value.trim().length > 0;
-      const hairOk = selectedHair !== null;
-      const nailsOk = selectedNails !== null;
-      const dateOk = dateInput.value.length > 0;
-      const timeOk = timeInput.value.length > 0;
-      const allFilled = nameOk && phoneOk && hairOk && nailsOk && dateOk && timeOk;
-
-      whatsappBtn.disabled = !allFilled;
-      telegramBtn.disabled = !allFilled;
-      copyFallback.style.display = allFilled ? 'inline-block' : 'none';
-
-      if (!hairOk && !nailsOk) serviceMsg.textContent = 'Please select one hair service and one nail service.';
-      else if (!hairOk) serviceMsg.textContent = 'Please select a hair service.';
-      else if (!nailsOk) serviceMsg.textContent = 'Please select a nail service.';
-      else serviceMsg.textContent = '✓ Hair + Nail selected';
-
-      if (!allFilled) {
-        let msg = '';
-        if (!hairOk) msg += 'Select a hair service. ';
-        if (!nailsOk) msg += 'Select a nail service. ';
-        if (!dateOk) msg += 'Pick a date. ';
-        if (!timeOk) msg += 'Pick a time. ';
-        if (!nameOk) msg += 'Enter your name. ';
-        if (!phoneOk) msg += 'Enter phone number. ';
-        validationMsg.textContent = msg.trim();
-      } else {
-        validationMsg.textContent = '';
-      }
-    }
-
-    // ----- service selection (one hair, one nail) with reset via click on ✕ -----
-    function handleServiceClick(e) {
-      const tag = e.currentTarget;
-      const category = tag.dataset.category;
-      if (e.target.classList.contains('reset-icon')) {
-        if (category === 'hair') clearHairSelection();
-        else if (category === 'nails') clearNailSelection();
-        return;
-      }
-
-      if (category === 'hair') {
-        if (selectedHair === tag.dataset.service) {
-          clearHairSelection();
-          return;
-        }
-        hairTags.forEach(t => t.classList.remove('selected'));
-        tag.classList.add('selected');
-        selectedHair = tag.dataset.service;
-      } else if (category === 'nails') {
-        if (selectedNails === tag.dataset.service) {
-          clearNailSelection();
-          return;
-        }
-        nailTags.forEach(t => t.classList.remove('selected'));
-        tag.classList.add('selected');
-        selectedNails = tag.dataset.service;
-      }
-      updateUI();
-    }
-
-    hairTags.forEach(tag => {
-      tag.addEventListener('click', handleServiceClick);
-    });
-
-    nailTags.forEach(tag => {
-      tag.addEventListener('click', handleServiceClick);
-    });
-
-    resetHairBtn.addEventListener('click', clearHairSelection);
-    resetNailsBtn.addEventListener('click', clearNailSelection);
-
-    staffOptions.forEach(opt => {
-      opt.addEventListener('click', function() {
-        staffOptions.forEach(o => o.classList.remove('selected'));
-        this.classList.add('selected');
-        selectedStaff = this.dataset.staff;
-        updateUI();
-      });
-    });
-
-    [dateInput, timeInput, nameInput, phoneInput].forEach(inp => {
-      inp.addEventListener('change', updateUI);
-      inp.addEventListener('input', updateUI);
-    });
-
-    if (!dateInput.value) {
-      const today = new Date().toISOString().split('T')[0];
-      dateInput.value = today;
-    }
-    if (!timeInput.value) timeInput.value = '11:30';
-
     updateUI();
+  }
 
-    // ----- build message -----
-    function buildMessage() {
-      const name = nameInput.value.trim() || '—';
-      const phone = phoneInput.value.trim() || '—';
-      const hair = selectedHair || '—';
-      const nails = selectedNails || '—';
-      const staff = selectedStaff || '—';
-      const date = dateInput.value || '—';
-      const time = timeInput.value || '—';
-      return `New booking request — ${salonName}
-Name: ${name}
-Hair service: ${hair}
-Nail service: ${nails}
-Stylist: ${staff}
-Date/Time: ${date} at ${time}
-Phone: ${phone}`;
+  hairRow.addEventListener('click', e => handleChipClick(hairRow, 'hair', e));
+  nailRow.addEventListener('click', e => handleChipClick(nailRow, 'nails', e));
+  staffRow.addEventListener('click', e => handleChipClick(staffRow, 'staff', e));
+
+  document.querySelectorAll('.clear-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const cat = link.dataset.clear;
+      if(cat === 'hair'){ selectedHair = null; hairRow.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected')); toggleClearLink('hair', false); }
+      if(cat === 'nails'){ selectedNails = null; nailRow.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected')); toggleClearLink('nails', false); }
+      updateUI();
+    });
+  });
+
+  [dateInput, timeInput, nameInput, phoneInput].forEach(inp => {
+    inp.addEventListener('input', updateUI);
+    inp.addEventListener('change', updateUI);
+  });
+
+  function formatDate(iso){
+    if(!iso) return null;
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString(undefined, { weekday:'short', day:'numeric', month:'short', year:'numeric' });
+  }
+
+  function updateUI(){
+    el.hair.textContent = selectedHair || 'Not selected';
+    el.hair.classList.toggle('muted', !selectedHair);
+    el.nails.textContent = selectedNails || 'Not selected';
+    el.nails.classList.toggle('muted', !selectedNails);
+    el.staff.textContent = (selectedStaff && selectedStaff !== '— any —') ? selectedStaff : 'No preference';
+    el.staff.classList.toggle('muted', !selectedStaff);
+
+    const dateOk = !!dateInput.value;
+    const timeOk = !!timeInput.value;
+    if(dateOk && timeOk){
+      el.dateTime.textContent = `${formatDate(dateInput.value)} at ${timeInput.value}`;
+      el.dateTime.classList.remove('muted');
+    } else {
+      el.dateTime.textContent = 'Not set';
+      el.dateTime.classList.add('muted');
     }
 
-    whatsappBtn.addEventListener('click', function() {
-      const msg = buildMessage();
-      window.open(`https://wa.me/${phoneIntl}?text=${encodeURIComponent(msg)}`, '_blank');
-    });
+    const nameOk = nameInput.value.trim().length > 0;
+    const phoneOk = phoneInput.value.trim().length > 0;
+    el.client.textContent = nameOk ? nameInput.value.trim() : 'Not entered';
+    el.client.classList.toggle('muted', !nameOk);
+    el.phone.textContent = phoneOk ? phoneInput.value.trim() : 'Not entered';
+    el.phone.classList.toggle('muted', !phoneOk);
 
-    telegramBtn.addEventListener('click', function() {
-      const msg = buildMessage();
-      window.open(`https://t.me/${telegramUser}?text=${encodeURIComponent(msg)}`, '_blank');
-    });
+    const hairOk = !!selectedHair;
+    const nailsOk = !!selectedNails;
+    const allFilled = hairOk && nailsOk && dateOk && timeOk && nameOk && phoneOk;
 
-    copyFallback.addEventListener('click', function() {
-      const msg = buildMessage();
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(msg).then(() => {
-          validationMsg.textContent = '✅ Message copied to clipboard.';
-          setTimeout(() => { validationMsg.textContent = ''; }, 3000);
-        }).catch(() => fallbackCopy(msg));
-      } else {
-        fallbackCopy(msg);
-      }
-    });
+    whatsappBtn.disabled = !allFilled;
+    telegramBtn.disabled = !allFilled;
+    copyBtn.style.visibility = allFilled ? 'visible' : 'hidden';
 
-    function fallbackCopy(text) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.left = '-9999px';
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand('copy');
-        validationMsg.textContent = '✅ Copied!';
-        setTimeout(() => { validationMsg.textContent = ''; }, 3000);
-      } catch (e) {
-        validationMsg.textContent = '❌ Copy failed. Please copy manually.';
-      }
-      document.body.removeChild(ta);
+    if(hairOk && nailsOk) statusMsg.textContent = '';
+    else if(!hairOk && !nailsOk) statusMsg.textContent = 'Choose a hair service and a nail service.';
+    else if(!hairOk) statusMsg.textContent = 'Choose a hair service.';
+    else statusMsg.textContent = 'Choose a nail service.';
+
+    if(allFilled){
+      validationMsg.textContent = '';
+    } else {
+      const missing = [];
+      if(!hairOk) missing.push('hair service');
+      if(!nailsOk) missing.push('nail service');
+      if(!dateOk) missing.push('date');
+      if(!timeOk) missing.push('time');
+      if(!nameOk) missing.push('name');
+      if(!phoneOk) missing.push('phone');
+      validationMsg.textContent = missing.length ? `Still needed: ${missing.join(', ')}.` : '';
     }
-  })();
+  }
+
+  function buildMessage(){
+    return `New booking request — ${SALON_NAME}
+Name: ${nameInput.value.trim() || '—'}
+Hair service: ${selectedHair || '—'}
+Nail service: ${selectedNails || '—'}
+Stylist: ${(selectedStaff && selectedStaff !== '— any —') ? selectedStaff : 'No preference'}
+Date/Time: ${dateInput.value || '—'} at ${timeInput.value || '—'}
+Phone: ${phoneInput.value.trim() || '—'}`;
+  }
+
+  whatsappBtn.addEventListener('click', () => {
+    window.open(`https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(buildMessage())}`, '_blank');
+  });
+
+  telegramBtn.addEventListener('click', () => {
+    window.open(`https://t.me/${TELEGRAM_USER}?text=${encodeURIComponent(buildMessage())}`, '_blank');
+  });
+
+  copyBtn.addEventListener('click', () => {
+    const msg = buildMessage();
+    const done = () => {
+      const original = copyBtn.textContent;
+      copyBtn.textContent = 'Copied';
+      setTimeout(() => { copyBtn.textContent = original; }, 2000);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(msg).then(done).catch(() => fallbackCopy(msg, done));
+    } else {
+      fallbackCopy(msg, done);
+    }
+  });
+
+  function fallbackCopy(text, done){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); }
+    catch(e){ validationMsg.textContent = 'Copy failed — please copy manually.'; }
+    document.body.removeChild(ta);
+  }
+
+  // Defaults: today's date, and a sensible default time
+  const today = new Date();
+  const iso = today.toISOString().split('T')[0];
+  dateInput.min = iso;
+  dateInput.value = iso;
+  timeInput.value = '11:30';
+
+  updateUI();
+})();
 </script>
-<!-- Telegram note: pre-fill less consistent, copy fallback provided -->
 </body>
 </html>
